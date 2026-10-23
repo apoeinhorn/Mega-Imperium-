@@ -991,8 +991,7 @@ firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 const db = firebase.firestore();
 
-// Sorge dafür, dass KEIN automatisches Login im Browser gespeichert wird!
-// Dadurch MUSS sich der Spieler bei jedem Seitenaufruf neu einloggen.
+// Kein automatisches Dauer-Login im Browser
 auth.setPersistence(firebase.auth.Auth.Persistence.NONE);
 
 // Avatare
@@ -1166,7 +1165,7 @@ function renderLeafletMarkers() {
     });
 }
 
-// --- ECHTER ECHTZEIT-CHAT ÜBER FIREBASE (MIT ADMIN & MOD BADGES) ---
+// --- ECHTER ECHTZEIT-CHAT ÜBER FIREBASE ---
 async function initCloudChatListener() {
     if (chatUnsubscribe) {
         chatUnsubscribe();
@@ -1175,7 +1174,6 @@ async function initCloudChatListener() {
     let box = document.getElementById('chat-box');
     if (!box) return;
 
-    // Rollen-Cache für Performanz
     const userRolesCache = {};
 
     chatUnsubscribe = db.collection("globalChat").orderBy("timestamp", "asc").limit(100)
@@ -1195,7 +1193,6 @@ async function initCloudChatListener() {
                 return;
             }
 
-            // Rollen der Autoren aus der Firestore 'users' Sammlung abfragen
             for (let uid of authorIds) {
                 if (!userRolesCache[uid]) {
                     try {
@@ -1268,7 +1265,7 @@ function sendChatMessage() {
         });
 }
 
-// --- MANUELLE CLOUD-SYNCHRONISATION (SPEICHERN & LADEN) ---
+// --- CLOUD-SYNC (LOKALER SPEICHER BLEIBT ERHALTEN FALLS NEUER ACCOUNT) ---
 async function manualCloudSync() {
     if (!auth.currentUser) {
         alert("Du musst eingeloggt sein, um mit der Cloud zu synchronisieren!");
@@ -1282,10 +1279,7 @@ async function manualCloudSync() {
     }
 
     try {
-        // 1. SCHRITT: Lokale Daten in der Cloud SPEICHERN
         saveGame();
-
-        // 2. SCHRITT: Neuesten Stand frisch aus der Cloud LADEN
         await new Promise((resolve) => {
             loadGameFromCloud((cloudData) => {
                 if (cloudData && typeof cloudData === 'object') {
@@ -1315,7 +1309,7 @@ async function manualCloudSync() {
             });
         });
 
-        alert("☁️ Erfolgreich mit der Cloud synchronisiert! (Gespeichert & Geladen)");
+        alert("☁️ Erfolgreich mit der Cloud synchronisiert!");
 
     } catch (error) {
         console.error("Fehler bei Cloud-Sync:", error);
@@ -1720,19 +1714,34 @@ function handleLogin() {
     btnAction.innerText = "Lade Spielstand...";
     btnAction.disabled = true;
 
+    // Speichere den aktuellen lokalen Spielstand vor dem Einloggen
+    let localSaveRaw = localStorage.getItem("imperium_local_temp_save");
+
     auth.signInWithEmailAndPassword(email, pass)
     .then((userCredential) => {
         let uid = userCredential.user.uid;
         state.userId = uid;
         state.playerEmail = userCredential.user.email;
 
-        // Spielstand direkt aus der Cloud laden
+        // Spielstand aus der Cloud laden
         loadGameFromCloud((cloudData) => {
             let defaultState = createDefaultState();
-            if (cloudData && typeof cloudData === 'object') {
+            
+            if (cloudData && typeof cloudData === 'object' && cloudData.money !== undefined) {
+                // Cloud-Spielstand existiert -> Verwende diesen
                 state = { ...defaultState, ...cloudData };
             } else {
-                state = defaultState;
+                // Neuer Account oder keine Daten in Cloud -> Übernehme vorhandenen Spielstand vom Handy!
+                let localSave = null;
+                try {
+                    localSave = JSON.parse(localSaveRaw);
+                } catch(e){}
+
+                if (localSave && typeof localSave === 'object') {
+                    state = { ...defaultState, ...localSave };
+                } else {
+                    state = defaultState;
+                }
             }
 
             state.userId = uid;
@@ -1744,7 +1753,7 @@ function handleLogin() {
             if (splashMoney) splashMoney.innerText = formatNumber(state.money);
 
             updateUI();
-            saveGame();
+            saveGame(); // Speichert direkt ab, damit der lokalen Stand synchronisiert wird!
 
             document.getElementById('auth-overlay').classList.add('hidden');
             document.getElementById('splash-overlay').classList.remove('hidden');
@@ -2039,7 +2048,19 @@ function createDefaultState() {
     };
 }
 
+// Lade beim Start vorhandene lokale Daten aus dem Browser-Speicher
+let existingLocalRaw = localStorage.getItem("imperium_ultimate_save_local") || localStorage.getItem("imperium_local_temp_save");
 let state = createDefaultState();
+
+if (existingLocalRaw) {
+    try {
+        let parsed = JSON.parse(existingLocalRaw);
+        if (parsed && typeof parsed === 'object') {
+            state = { ...createDefaultState(), ...parsed };
+        }
+    } catch(e){}
+}
+
 let activeGlobalEvent = null;
 
 // --- CLOUD SPEICHERN & LADEN LOGIK ---
@@ -3109,6 +3130,9 @@ function updateUI() {
 }
 
 function saveGame() {
+    // Sichere die Daten immer auch lokal als Backup
+    localStorage.setItem("imperium_local_temp_save", JSON.stringify(state));
+
     if (!auth.currentUser) return;
     localStorage.setItem("imperium_ultimate_save_" + auth.currentUser.uid, JSON.stringify(state));
     saveGameToCloud();
@@ -3117,7 +3141,6 @@ function saveGame() {
 
 // Live Krypto-Schwankungen Loop
 setInterval(() => {
-    if (!auth.currentUser) return;
     state.crypto.forEach(c => {
         let fluctuation = (Math.random() * 6 - 2.8);
         c.price = Math.max(0.0001, c.price * (1 + fluctuation / 100));
@@ -3134,7 +3157,6 @@ setInterval(() => {
 
 // Sekunden Loop für Timers & UI updates
 setInterval(() => {
-    if (!auth.currentUser) return;
     let now = Date.now();
 
     if (state.techs && state.techs.autoClicker > 0) {
