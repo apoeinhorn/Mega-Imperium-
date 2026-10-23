@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Mega Imperium Tycoon - Global Edition</title>
+<title>Mega Imperium Tycoon - Supabase Edition</title>
 
 <!-- PWA Manifest & Meta Tags -->
 <meta name="application-name" content="Mega Imperium">
@@ -19,10 +19,8 @@
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
-<!-- Firebase SDKs -->
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+<!-- Supabase JS SDK -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
 :root {
@@ -299,7 +297,7 @@ header {
     color: #34d399;
 }
 
-/* POI SPEZIELL DESIGN NACH SCREENSHOT */
+/* POI SPEZIELL DESIGN */
 .poi-card-custom {
     background: linear-gradient(180deg, #120e2e 0%, #0a081a 100%);
     border: 1px solid rgba(139, 92, 246, 0.3);
@@ -323,96 +321,20 @@ header {
     font-size: 32px;
     border: 3px solid #120e2e;
 }
-.poi-sub-label {
-    font-size: 12px;
-    color: #94a3b8;
-    font-weight: 600;
-    margin-bottom: 2px;
-}
-.poi-corp-title {
-    font-size: 22px;
-    font-weight: 900;
-    color: #ffffff;
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
-    margin-bottom: 20px;
-}
-.poi-stats-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-    margin-bottom: 24px;
-}
-.poi-stat-box {
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 20px;
-    padding: 12px 10px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    text-align: left;
-}
-.poi-stat-icon {
-    width: 36px;
-    height: 36px;
-    border-radius: 12px;
-    background: rgba(255, 255, 255, 0.1);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 18px;
-    flex-shrink: 0;
-}
-.poi-stat-info-label {
-    font-size: 10px;
-    color: #94a3b8;
-    font-weight: 700;
-}
-.poi-stat-info-val {
-    font-size: 14px;
-    font-weight: 900;
-    color: #ffffff;
-    margin-top: 1px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
+.poi-sub-label { font-size: 12px; color: #94a3b8; font-weight: 600; margin-bottom: 2px; }
+.poi-corp-title { font-size: 22px; font-weight: 900; color: #ffffff; letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 20px; }
+.poi-stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 24px; }
+.poi-stat-box { background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 20px; padding: 12px 10px; display: flex; align-items: center; gap: 10px; text-align: left; }
+.poi-stat-icon { width: 36px; height: 36px; border-radius: 12px; background: rgba(255, 255, 255, 0.1); display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+.poi-stat-info-label { font-size: 10px; color: #94a3b8; font-weight: 700; }
+.poi-stat-info-val { font-size: 14px; font-weight: 900; color: #ffffff; margin-top: 1px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
-.poi-upgrade-buttons-row {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 16px;
-    margin-top: 10px;
-}
-.poi-up-btn {
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    border: none;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    color: #fff;
-    font-size: 18px;
-    cursor: pointer;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
-    transition: transform 0.15s ease;
-}
-.poi-up-btn:active {
-    transform: scale(0.92);
-}
-.poi-up-btn.btn-lvl1 {
-    background: linear-gradient(135deg, #38bdf8, #0284c7);
-}
-.poi-up-btn.btn-lvl10 {
-    background: linear-gradient(135deg, #a855f7, #6b21a8);
-}
-.poi-up-btn.btn-lvl100 {
-    background: linear-gradient(135deg, #ec4899, #be185d);
-}
+.poi-upgrade-buttons-row { display: flex; justify-content: center; align-items: center; gap: 16px; margin-top: 10px; }
+.poi-up-btn { width: 60px; height: 60px; border-radius: 50%; border: none; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #fff; font-size: 18px; cursor: pointer; box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4); transition: transform 0.15s ease; }
+.poi-up-btn:active { transform: scale(0.92); }
+.poi-up-btn.btn-lvl1 { background: linear-gradient(135deg, #38bdf8, #0284c7); }
+.poi-up-btn.btn-lvl10 { background: linear-gradient(135deg, #a855f7, #6b21a8); }
+.poi-up-btn.btn-lvl100 { background: linear-gradient(135deg, #ec4899, #be185d); }
 
 /* Modals */
 #card-choice-modal, #building-modal, #avatar-modal {
@@ -538,7 +460,7 @@ select:focus { border-color: var(--primary); }
 <div id="auth-overlay">
     <div class="auth-box">
         <div class="splash-logo" style="font-size:24px;">Mega Imperium</div>
-        <div class="splash-sub" style="margin-bottom:20px;">Anmelden & Spielstand laden</div>
+        <div class="splash-sub" style="margin-bottom:20px;">Supabase Cloud Anmelden</div>
         
         <input type="email" id="auth-email" class="auth-input" placeholder="E-Mail-Adresse">
         <input type="password" id="auth-password" class="auth-input" placeholder="Passwort (min. 6 Zeichen)" onkeypress="if(event.key==='Enter') handleLogin()">
@@ -553,7 +475,7 @@ select:focus { border-color: var(--primary); }
 <!-- START SCREEN OVERLAY -->
 <div id="splash-overlay" class="hidden">
 <div class="splash-logo">Mega Imperium</div>
-<div class="splash-sub">Global Edition</div>
+<div class="splash-sub">Supabase Edition</div>
 
 <div class="splash-card">
 <div style="font-size:11px; color:var(--text-muted); text-transform:uppercase;">Willkommen, Welten-Tycoon</div>
@@ -701,7 +623,7 @@ select:focus { border-color: var(--primary); }
             <div class="card" style="border-color:rgba(56,189,248,0.3);">
                 <div class="tycoon-header">
                     <h2 style="color:var(--primary); margin:0; font-size:16px;"><i class="fa-solid fa-comments"></i> Globale Imperiums-Lobby</h2>
-                    <span class="tycoon-tag" style="color:var(--primary); border-color:rgba(56,189,248,0.3); background:rgba(56,189,248,0.1);">Live-Chat (Cloud)</span>
+                    <span class="tycoon-tag" style="color:var(--primary); border-color:rgba(56,189,248,0.3); background:rgba(56,189,248,0.1);">Live-Chat (Supabase Cloud)</span>
                 </div>
                 <p style="font-size:11px; color:var(--text-muted); margin:6px 0 12px 0;">Tausche dich live mit echten Tycoons und Mogulen weltweit aus!</p>
 
@@ -838,9 +760,9 @@ select:focus { border-color: var(--primary); }
                     <h2 style="color:#c084fc; margin:0; font-size:18px;"><i class="fa-solid fa-building-flag"></i> Korporationen (Max 5 Mitglieder)</h2>
                     <span class="tycoon-tag" style="color:#c084fc; border-color:rgba(139,92,246,0.4); background:rgba(139,92,246,0.15);" id="corp-header-tag">Keine Korporation</span>
                 </div>
-                <p style="font-size:12px; color:var(--text-muted); margin:0 0 14px 0;">Gründe deine eigene Korporation für 50 💎 oder tritt einem bestehenden Team bei. Levelt gemeinsam die globalen POIs in der Cloud!</p>
+                <p style="font-size:12px; color:var(--text-muted); margin:0 0 14px 0;">Gründe deine eigene Korporation für 50 💎 oder tritt einem bestehenden Team bei. Levelt gemeinsam die globalen POIs in der Supabase Cloud!</p>
 
-                <!-- KORPORATION DASHBOARD / BEITRITT SYSTEM -->
+                <!-- KORPORATION DASHBOARD -->
                 <div id="corp-dashboard-box"></div>
             </div>
 
@@ -966,7 +888,7 @@ select:focus { border-color: var(--primary); }
                 <div id="tasks-container"></div>
             </div>
 
-            <!-- PROFIL-FELD & AVATAR-SYSTEM -->
+            <!-- PROFIL & AVATAR -->
             <div class="card" style="border-color:rgba(245,158,11,0.3); margin-bottom:14px;">
                 <h3 style="margin:0 0 8px 0; color:var(--warning); font-size:15px;">👤 Dein Firmen-Profil & Avatar</h3>
                 <div style="display:flex; align-items:center; gap:14px; margin-bottom:12px; background:var(--surface-glass); padding:12px; border-radius:14px; border:1px solid var(--border);">
@@ -985,7 +907,7 @@ select:focus { border-color: var(--primary); }
                 </div>
                 <button class="btn" style="background:var(--danger); color:#fff; margin-top:0; margin-bottom:12px;" onclick="handleLogout()">🚪 Abmelden / Logout</button>
 
-                <!-- GEHEIMER ADMIN-BUTTON (EXKLUSIV NUR FÜR T.BLAU97@GMAIL.COM) -->
+                <!-- ADMIN-STEUERUNG (NUR FÜR DEINE E-MAIL) -->
                 <div id="secret-owner-rescue-box" style="display:none; background:rgba(239, 68, 68, 0.15); border:2px solid var(--danger); padding:14px; border-radius:14px; margin-bottom:12px; text-align:center;">
                     <div style="font-size:12px; font-weight:900; color:var(--danger); margin-bottom:8px;">👑 ADMIN & ENTWICKLER-STEUERUNG</div>
                     <div style="display:flex; gap:6px; margin-bottom:8px;">
@@ -1078,13 +1000,6 @@ select:focus { border-color: var(--primary); }
                         <li>Tippe oben rechts auf <b>„Hinzufügen“</b>. Fertig!</li>
                     </ol>
                 </div>
-
-                <div style="background:var(--surface-glass); padding:14px; border-radius:14px; border:1px solid var(--border);">
-                    <div style="font-size:13px; font-weight:800; color:var(--warning); margin-bottom:6px;">💡 Allgemeine Hinweise:</div>
-                    <p style="font-size:11px; color:var(--text-muted); line-height:1.5; margin:0;">
-                        Dein Account speichert deinen Spielstand sicher über E-Mail & Passwort auf allen Geräten ab.
-                    </p>
-                </div>
             </div>
         </div>
 
@@ -1093,7 +1008,7 @@ select:focus { border-color: var(--primary); }
             <div class="card" style="border-color:rgba(139,92,246,0.3); margin-bottom:14px; text-align:center;">
                 <div style="font-size:48px; margin-bottom:10px;">🦄</div>
                 <h2 style="color:var(--accent); margin:0 0 6px 0; font-size:18px;">Spiel-Entwickler & Support</h2>
-                <p style="font-size:12px; color:var(--text-muted); margin:0 0 16px 0;">Hast du Fragen, Feedback oder hast du einen Fehler im Spiel gefunden?</p>
+                <p style="font-size:12px; color:var(--text-muted); margin:0 0 16px 0;">Hast du Fragen, Feedback oder einen Fehler im Spiel gefunden?</p>
                 
                 <div style="background:var(--surface-glass); padding:16px; border-radius:16px; border:1px solid var(--border); display:inline-block; width:100%; max-width:320px; box-shadow:0 10px 25px rgba(0,0,0,0.3); margin-bottom: 16px;">
                     <div style="font-size:10px; color:var(--text-muted); text-transform:uppercase; letter-spacing:1px; margin-bottom:4px;">Discord Kontakt</div>
@@ -1101,13 +1016,6 @@ select:focus { border-color: var(--primary); }
                         <i class="fa-brands fa-discord" style="color:#5865F2;"></i> ApoEinhorn
                     </div>
                     <div style="font-size:11px; color:var(--text-muted); margin-top:2px;">User-ID: <code style="color:var(--primary);">apoeinhorn</code></div>
-                    <div style="font-size:11px; color:var(--text-muted); margin-top:8px;">Mitglied seit: 1. Sept. 2022</div>
-                </div>
-
-                <div>
-                    <a href="https://discord.com" target="_blank" class="btn" style="background:#5865F2; color:#fff; display:inline-block; text-decoration:none; max-width:320px;">
-                        <i class="fa-brands fa-discord"></i> Discord öffnen / Beitreten
-                    </a>
                 </div>
             </div>
         </div>
@@ -1116,22 +1024,11 @@ select:focus { border-color: var(--primary); }
 </div>
 
 <script>
-// --- FIREBASE CLOUD KONFIGURATION ---
-const firebaseConfig = {
-  apiKey: "AIzaSyC1h1xBWXimmLWKlsXAuKeBvPUCNnLK6mo",
-  authDomain: "mega-imperium-d4a32.firebaseapp.com",
-  projectId: "mega-imperium-d4a32",
-  storageBucket: "mega-imperium-d4a32.firebasestorage.app",
-  messagingSenderId: "698393536136",
-  appId: "1:698393536136:web:a50a88145cd046369ca13d",
-  measurementId: "G-N8QYMT83RF"
-};
+// --- SUPABASE CLOUD KONFIGURATION ---
+const SUPABASE_URL = "https://vwzyrtjbbryokotqljks.supabase.co";
+const SUPABASE_KEY = "sb_publishable_rtF7QRG5gQD2uChT3aS8ow_5W9q4EgF";
 
-firebase.initializeApp(firebaseConfig);
-const auth = firebase.auth();
-const db = firebase.firestore();
-
-auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
+const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 // Exklusive E-Mail-Adresse für den Admin-Modus
 const OWNER_EMAIL_IDENTIFIER = "t.blau97@gmail.com";
@@ -1177,8 +1074,8 @@ window.addEventListener('beforeinstallprompt', (e) => {
 let leafletMap = null;
 let mapMarkers = [];
 let tempSelectedAvatarIndex = 0;
-let chatUnsubscribe = null;
-let corpListenerUnsubscribe = null;
+let chatSubscription = null;
+let corpChannel = null;
 let currentCorpData = null;
 
 function initLeafletMap() {
@@ -1312,102 +1209,93 @@ function renderLeafletMarkers() {
     });
 }
 
-// --- ECHTER ECHTZEIT-CHAT ÜBER FIREBASE ---
+// --- ECHTER ECHTZEIT-CHAT ÜBER SUPABASE REALTIME ---
 async function initCloudChatListener() {
-    if (chatUnsubscribe) chatUnsubscribe();
+    if (chatSubscription) supabaseClient.removeChannel(chatSubscription);
 
     let box = document.getElementById('chat-box');
     if (!box) return;
 
-    const userRolesCache = {};
+    loadChatMessages();
 
-    chatUnsubscribe = db.collection("globalChat").orderBy("timestamp", "asc").limit(100)
-        .onSnapshot(async (snapshot) => {
-            box.innerHTML = "";
-            let messages = [];
-            let authorIds = new Set();
-
-            snapshot.forEach((doc) => {
-                let m = doc.data();
-                messages.push(m);
-                if (m.authorId) authorIds.add(m.authorId);
-            });
-
-            if (messages.length === 0) {
-                box.innerHTML = `<div style="text-align:center; color:var(--text-muted); font-size:12px; padding:20px;">Noch keine Nachrichten. Schreibe als Erster etwas in die Cloud-Lobby!</div>`;
-                return;
-            }
-
-            for (let uid of authorIds) {
-                if (!userRolesCache[uid]) {
-                    try {
-                        let userDoc = await db.collection("users").doc(uid).get();
-                        if (userDoc.exists && userDoc.data().role) {
-                            userRolesCache[uid] = userDoc.data().role;
-                        } else {
-                            userRolesCache[uid] = "user";
-                        }
-                    } catch (e) {
-                        userRolesCache[uid] = "user";
-                    }
-                }
-            }
-
-            messages.forEach(msg => {
-                let isOwn = msg.authorId === (auth.currentUser ? auth.currentUser.uid : "");
-                let role = userRolesCache[msg.authorId] || "user";
-
-                let badgeHtml = "";
-                let authorColor = "var(--primary)";
-
-                if (role === "admin") {
-                    badgeHtml = ' <span class="badge-admin">ADMIN</span>';
-                    authorColor = "#ef4444";
-                } else if (role === "moderator") {
-                    badgeHtml = ' <span class="badge-mod">MOD</span>';
-                    authorColor = "#3b82f6";
-                }
-
-                box.innerHTML += `
-                    <div class="chat-msg ${isOwn ? 'own' : ''}">
-                        <div class="chat-author">
-                            <span style="color: ${authorColor};">${msg.author}${badgeHtml}</span>
-                            <span class="chat-time">${msg.time || ''}</span>
-                        </div>
-                        <div>${msg.text}</div>
-                    </div>`;
-            });
-            box.scrollTop = box.scrollHeight;
-        }, (error) => {
-            console.error("Fehler beim Live-Laden des Chats: ", error);
-            box.innerHTML = `<div style="color:var(--danger); text-align:center; font-size:12px;">Fehler beim Laden des Chats aus der Cloud.</div>`;
-        });
+    chatSubscription = supabaseClient
+        .channel('public:global_chat')
+        .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'global_chat' }, payload => {
+            appendChatMessage(payload.new);
+        })
+        .subscribe();
 }
 
-function sendChatMessage() {
+async function loadChatMessages() {
+    let box = document.getElementById('chat-box');
+    if (!box) return;
+
+    let { data, error } = await supabaseClient
+        .from('global_chat')
+        .select('*')
+        .order('timestamp', { ascending: true })
+        .limit(100);
+
+    if (error) {
+        box.innerHTML = `<div style="color:var(--danger); text-align:center; font-size:12px;">Fehler beim Laden des Chats aus der Cloud.</div>`;
+        return;
+    }
+
+    box.innerHTML = "";
+    if (!data || data.length === 0) {
+        box.innerHTML = `<div style="text-align:center; color:var(--text-muted); font-size:12px; padding:20px;">Noch keine Nachrichten. Schreibe als Erster etwas in die Cloud-Lobby!</div>`;
+        return;
+    }
+
+    data.forEach(msg => appendChatMessage(msg));
+    box.scrollTop = box.scrollHeight;
+}
+
+function appendChatMessage(msg) {
+    let box = document.getElementById('chat-box');
+    if (!box) return;
+    let currentAuthUser = supabaseClient.auth.getUser();
+    let isOwn = currentAuthUser && msg.author_id === state.userId;
+    let authorColor = "var(--primary)";
+
+    box.innerHTML += `
+        <div class="chat-msg ${isOwn ? 'own' : ''}">
+            <div class="chat-author">
+                <span style="color: ${authorColor};">${msg.author}</span>
+                <span class="chat-time">${msg.time || ''}</span>
+            </div>
+            <div>${msg.text}</div>
+        </div>`;
+    box.scrollTop = box.scrollHeight;
+}
+
+async function sendChatMessage() {
     let input = document.getElementById('chat-input');
     let text = input.value.trim();
-    if (!text || !auth.currentUser) return;
+    let { data: { user } } = await supabaseClient.auth.getUser();
+    if (!text || !user) return;
     
     let d = new Date();
     let timeStr = `${d.getHours()<10?'0':''}${d.getHours()}:${d.getMinutes()<10?'0':''}${d.getMinutes()}`;
     
-    let chatMessageData = {
-        authorId: auth.currentUser.uid,
+    let { error } = await supabaseClient.from('global_chat').insert({
+        author_id: user.id,
         author: state.playerName || "Spieler",
         text: text,
-        time: timeStr,
-        timestamp: firebase.firestore.FieldValue.serverTimestamp()
-    };
+        time: timeStr
+    });
 
-    db.collection("globalChat").add(chatMessageData)
-        .then(() => { input.value = ""; })
-        .catch((error) => { alert("Nachricht konnte nicht gesendet werden."); });
+    if (!error) {
+        input.value = "";
+    } else {
+        alert("Nachricht konnte nicht gesendet werden.");
+    }
 }
 
 // --- CLOUD-SYNC LOGIK ---
 async function manualCloudSync() {
-    if (!auth.currentUser) {
+    let { data: { user } } = await supabaseClient.auth.getUser();
+    if (!user) {
         alert("Du musst eingeloggt sein, um mit der Cloud zu synchronisieren!");
         return;
     }
@@ -1420,29 +1308,16 @@ async function manualCloudSync() {
 
     try {
         saveGame();
-        await new Promise((resolve) => {
-            loadGameFromCloud((cloudData) => {
-                if (cloudData && typeof cloudData === 'object') {
-                    let defaultState = createDefaultState();
-                    let merged = { ...defaultState, ...cloudData };
-                    
-                    if (cloudData.items) {
-                        merged.items = defaultState.items.map(def => {
-                            let saved = cloudData.items.find(x => x.id === def.id);
-                            return saved ? { ...def, count: saved.count||0, level: saved.level||1, diamondLevel: saved.diamondLevel||0, empHired: saved.empHired||false } : def;
-                        });
-                    }
-                    state = merged;
-                    state.userId = auth.currentUser.uid;
-                    state.playerEmail = auth.currentUser.email;
-
-                    updateUI();
-                }
-                resolve();
-            });
-        });
-
-        alert("☁️ Erfolgreich mit der Cloud synchronisiert!");
+        let { data, error } = await supabaseClient.from('game_saves').select('*').eq('user_id', user.id).single();
+        if (data && data.save_data) {
+            let defaultState = createDefaultState();
+            let merged = { ...defaultState, ...data.save_data };
+            state = merged;
+            state.userId = user.id;
+            state.playerEmail = user.email;
+            updateUI();
+        }
+        alert("☁️ Erfolgreich mit der Supabase-Cloud synchronisiert!");
     } catch (error) {
         alert("Fehler bei der Cloud-Synchronisation!");
     } finally {
@@ -1453,9 +1328,9 @@ async function manualCloudSync() {
     }
 }
 
-// --- KORPORATIONS SYSTEM (ECHTZEIT CLOUD) ---
+// --- KORPORATIONS SYSTEM (SUPABASE CLOUD) ---
 function initCorpCloudListener() {
-    if (corpListenerUnsubscribe) corpListenerUnsubscribe();
+    if (corpChannel) supabaseClient.removeChannel(corpChannel);
     let corpTag = document.getElementById('corp-header-tag');
 
     if (!state.corpId) {
@@ -1468,10 +1343,14 @@ function initCorpCloudListener() {
         return;
     }
 
-    corpListenerUnsubscribe = db.collection("corporations").doc(state.corpId)
-        .onSnapshot((doc) => {
-            if (doc.exists) {
-                currentCorpData = doc.data();
+    supabaseClient
+        .from('corporations')
+        .select('*')
+        .eq('id', state.corpId)
+        .single()
+        .then(({ data }) => {
+            if (data) {
+                currentCorpData = data;
                 if (corpTag) {
                     let icon = currentCorpData.icon || "🏢";
                     corpTag.innerText = `${icon} ${currentCorpData.name}`;
@@ -1482,10 +1361,6 @@ function initCorpCloudListener() {
             } else {
                 state.corpId = "";
                 currentCorpData = null;
-                if (corpTag) {
-                    corpTag.innerText = "Keine Korporation";
-                    corpTag.style.color = "var(--text-muted)";
-                }
                 saveGame();
                 renderCorpDashboard();
                 renderPois();
@@ -1493,44 +1368,39 @@ function initCorpCloudListener() {
         });
 }
 
-// --- EXKLUSIVER ADMIN-MODUS NUR FÜR DEINE E-MAIL ---
 function checkOwnerRescueVisibility() {
     let rescueBox = document.getElementById('secret-owner-rescue-box');
     if (!rescueBox) return;
 
-    if (auth.currentUser && auth.currentUser.email && auth.currentUser.email.toLowerCase() === OWNER_EMAIL_IDENTIFIER.toLowerCase()) {
-        rescueBox.style.display = 'block';
-        
-        // Admin-Rolle in Firestore hinterlegen
-        db.collection("users").doc(auth.currentUser.uid).set({
-            role: "admin",
-            email: auth.currentUser.email
-        }, { merge: true });
-    } else {
-        rescueBox.style.display = 'none';
-    }
+    supabaseClient.auth.getUser().then(({ data: { user } }) => {
+        if (user && user.email && user.email.toLowerCase() === OWNER_EMAIL_IDENTIFIER.toLowerCase()) {
+            rescueBox.style.display = 'block';
+        } else {
+            rescueBox.style.display = 'none';
+        }
+    });
 }
 
-function adminAddMoney() {
-    if (!auth.currentUser || auth.currentUser.email.toLowerCase() !== OWNER_EMAIL_IDENTIFIER.toLowerCase()) return;
+async function adminAddMoney() {
+    let { data: { user } } = await supabaseClient.auth.getUser();
+    if (!user || user.email.toLowerCase() !== OWNER_EMAIL_IDENTIFIER.toLowerCase()) return;
     state.money += 100000000;
-    updateUI();
-    saveGame();
+    updateUI(); saveGame();
     alert("👑 [ADMIN] +100.000.000 € gutgeschrieben!");
 }
 
-function adminAddDiamonds() {
-    if (!auth.currentUser || auth.currentUser.email.toLowerCase() !== OWNER_EMAIL_IDENTIFIER.toLowerCase()) return;
+async function adminAddDiamonds() {
+    let { data: { user } } = await supabaseClient.auth.getUser();
+    if (!user || user.email.toLowerCase() !== OWNER_EMAIL_IDENTIFIER.toLowerCase()) return;
     state.diamonds += 1000;
-    updateUI();
-    saveGame();
+    updateUI(); saveGame();
     alert("💎 [ADMIN] +1.000 Diamanten gutgeschrieben!");
 }
 
-function forceClaimApoCorp() {
-    if (!auth.currentUser || auth.currentUser.email.toLowerCase() !== OWNER_EMAIL_IDENTIFIER.toLowerCase()) {
-        alert("Zugriff verweigert! Nur für den Inhaber.");
-        return;
+async function forceClaimApoCorp() {
+    let { data: { user } } = await supabaseClient.auth.getUser();
+    if (!user || user.email.toLowerCase() !== OWNER_EMAIL_IDENTIFIER.toLowerCase()) {
+        alert("Zugriff verweigert!"); return;
     }
 
     let corpId = "corp_apo_main_official";
@@ -1540,26 +1410,25 @@ function forceClaimApoCorp() {
         id: corpId,
         name: "Apo",
         icon: "⚡",
-        leaderId: auth.currentUser.uid,
-        leaderName: state.playerName || "Apo",
-        members: [{ uid: auth.currentUser.uid, name: state.playerName || "Apo" }],
+        leader_id: user.id,
+        leader_name: state.playerName || "Apo",
+        members: [{ uid: user.id, name: state.playerName || "Apo" }],
         pois: initialPois,
         created: Date.now()
     };
 
-    db.collection("corporations").doc(corpId).set(apoCorp, { merge: true })
-        .then(() => {
-            state.corpId = corpId;
-            saveGame();
-            initCorpCloudListener();
-            alert("👑 Korporation 'Apo' wurde erfolgreich für deinen Account beansprucht und gesichert!");
-        })
-        .catch(err => {
-            alert("Fehler beim Übernehmen der Korporation.");
-        });
+    let { error } = await supabaseClient.from('corporations').upsert(apoCorp);
+    if (!error) {
+        state.corpId = corpId;
+        saveGame();
+        initCorpCloudListener();
+        alert("👑 Korporation 'Apo' erfolgreich beansprucht!");
+    } else {
+        alert("Fehler beim Übernehmen der Korporation.");
+    }
 }
 
-function createCorporation() {
+async function createCorporation() {
     if (state.diamonds < 50) {
         alert("Du benötigst 50 💎, um eine Korporation zu gründen!");
         return;
@@ -1568,104 +1437,89 @@ function createCorporation() {
     if (!corpName || !corpName.trim()) return;
     corpName = corpName.trim();
 
-    state.diamonds -= 50;
+    let { data: { user } } = await supabaseClient.auth.getUser();
+    if (!user) return;
 
+    state.diamonds -= 50;
     let initialPois = generateAllMonthlyPois();
-    let corpId = (corpName.toLowerCase() === "apo") ? "corp_apo_main_official" : ("corp_" + Date.now() + "_" + Math.floor(Math.random()*1000));
+    let corpId = "corp_" + Date.now() + "_" + Math.floor(Math.random()*1000);
 
     let newCorp = {
         id: corpId,
         name: corpName,
-        icon: corpName.toLowerCase() === "apo" ? "⚡" : "🚀",
-        leaderId: auth.currentUser.uid,
-        leaderName: state.playerName || "Leader",
-        members: [{ uid: auth.currentUser.uid, name: state.playerName || "Leader" }],
+        icon: "🚀",
+        leader_id: user.id,
+        leader_name: state.playerName || "Leader",
+        members: [{ uid: user.id, name: state.playerName || "Leader" }],
         pois: initialPois,
         created: Date.now()
     };
 
-    db.collection("corporations").doc(corpId).set(newCorp, { merge: true })
-        .then(() => {
-            state.corpId = corpId;
-            saveGame();
-            initCorpCloudListener();
-            alert(`🎉 Korporation "${corpName}" erfolgreich gegründet!`);
-        })
-        .catch(err => {
-            alert("Fehler beim Erstellen der Korporation.");
-        });
+    let { error } = await supabaseClient.from('corporations').insert(newCorp);
+    if (!error) {
+        state.corpId = corpId;
+        saveGame();
+        initCorpCloudListener();
+        alert(`🎉 Korporation "${corpName}" erfolgreich gegründet!`);
+    } else {
+        alert("Fehler beim Erstellen.");
+    }
 }
 
-function changeCorpIcon(iconSymbol) {
+async function changeCorpIcon(iconSymbol) {
     if (!state.corpId || !currentCorpData) return;
-    if (currentCorpData.leaderId !== auth.currentUser.uid) {
-        alert("Nur der Anführer kann das Symbol der Korporation ändern!");
+    let { data: { user } } = await supabaseClient.auth.getUser();
+    if (!user || currentCorpData.leader_id !== user.id) {
+        alert("Nur der Anführer kann das Symbol ändern!");
         return;
     }
 
-    db.collection("corporations").doc(state.corpId).update({
-        icon: iconSymbol
-    }).then(() => {
-        alert(`Symbol zu ${iconSymbol} geändert!`);
-    });
+    await supabaseClient.from('corporations').update({ icon: iconSymbol }).eq('id', state.corpId);
+    currentCorpData.icon = iconSymbol;
+    renderCorpDashboard();
 }
 
-function joinCorporation(corpId, corpName) {
-    if (state.corpId) {
-        alert("Du bist bereits in einer Korporation!");
-        return;
+async function joinCorporation(corpId, corpName) {
+    if (state.corpId) { alert("Du bist bereits in einer Korporation!"); return; }
+    let { data: { user } } = await supabaseClient.auth.getUser();
+    if (!user) return;
+
+    let { data } = await supabaseClient.from('corporations').select('*').eq('id', corpId).single();
+    if (!data) return;
+
+    if (data.members.length >= 5) { alert("Diese Korporation ist voll!"); return; }
+
+    data.members.push({ uid: user.id, name: state.playerName || "Mitglied" });
+    let { error } = await supabaseClient.from('corporations').update({ members: data.members }).eq('id', corpId);
+
+    if (!error) {
+        state.corpId = corpId;
+        saveGame();
+        initCorpCloudListener();
+        alert(`Willkommen bei "${corpName}"!`);
     }
-
-    db.collection("corporations").doc(corpId).get().then(doc => {
-        if (!doc.exists) {
-            alert("Korporation existiert nicht mehr.");
-            return;
-        }
-        let data = doc.data();
-        if (data.members.length >= 5) {
-            alert("Diese Korporation ist voll! (Max. 5 Mitglieder)");
-            return;
-        }
-
-        data.members.push({ uid: auth.currentUser.uid, name: state.playerName || "Mitglied" });
-
-        db.collection("corporations").doc(corpId).update({
-            members: data.members
-        }).then(() => {
-            state.corpId = corpId;
-            saveGame();
-            initCorpCloudListener();
-            alert(`Willkommen bei "${corpName}"!`);
-        });
-    });
 }
 
-function leaveCorporation() {
+async function leaveCorporation() {
     if (!state.corpId || !currentCorpData) return;
     if (!confirm("Möchtest du diese Korporation wirklich verlassen?")) return;
+    let { data: { user } } = await supabaseClient.auth.getUser();
+    if (!user) return;
 
-    let isLeader = currentCorpData.leaderId === auth.currentUser.uid;
+    let isLeader = currentCorpData.leader_id === user.id;
 
     if (isLeader || currentCorpData.members.length <= 1) {
-        db.collection("corporations").doc(state.corpId).delete().then(() => {
-            state.corpId = "";
-            currentCorpData = null;
-            saveGame();
-            initCorpCloudListener();
-            alert("Korporation aufgelöst!");
-        });
+        await supabaseClient.from('corporations').delete().eq('id', state.corpId);
     } else {
-        let updatedMembers = currentCorpData.members.filter(m => m.uid !== auth.currentUser.uid);
-        db.collection("corporations").doc(state.corpId).update({
-            members: updatedMembers
-        }).then(() => {
-            state.corpId = "";
-            currentCorpData = null;
-            saveGame();
-            initCorpCloudListener();
-            alert("Korporation verlassen.");
-        });
+        let updatedMembers = currentCorpData.members.filter(m => m.uid !== user.id);
+        await supabaseClient.from('corporations').update({ members: updatedMembers }).eq('id', state.corpId);
     }
+
+    state.corpId = "";
+    currentCorpData = null;
+    saveGame();
+    initCorpCloudListener();
+    alert("Korporation verlassen.");
 }
 
 function getCorpTotalIncome() {
@@ -1678,149 +1532,143 @@ function renderCorpDashboard() {
     let box = document.getElementById('corp-dashboard-box');
     if (!box) return;
 
-    if (!state.corpId || !currentCorpData) {
-        box.innerHTML = `
-            <div style="background:var(--surface-glass); padding:16px; border-radius:16px; border:1px solid var(--border); text-align:center;">
-                <div style="font-size:14px; font-weight:800; color:#fff; margin-bottom:6px;">Du bist aktuell in keiner Korporation</div>
-                <div style="font-size:11px; color:var(--text-muted); margin-bottom:14px;">Gründe für 50 💎 dein eigenes Team oder tritt einer offenen Korporation bei!</div>
-                <button class="btn" style="background:linear-gradient(135deg, #ec4899, #8b5cf6); color:#fff; font-size:14px;" onclick="createCorporation()">
-                    🏢 Neue Korporation gründen (50 💎)
-                </button>
-                <hr style="border:0; border-top:1px solid var(--border); margin:16px 0;">
-                <div style="font-size:12px; font-weight:800; color:var(--primary); margin-bottom:8px;">Offene Korporationen Suchen</div>
-                <div id="open-corps-list" style="font-size:11px; color:var(--text-muted);">Lade verfügbare Teams...</div>
-            </div>`;
-        fetchOpenCorporations();
-    } else {
-        let corpTrophies = getCorpTotalTrophies();
-        let corpIncome = getCorpTotalIncome();
-        let isLeader = currentCorpData.leaderId === auth.currentUser.uid;
-        let corpIcon = currentCorpData.icon || "🚀";
-
-        let memberListHtml = currentCorpData.members.map(m => `
-            <div style="background:var(--card-dark); border:1px solid var(--border); padding:8px 12px; border-radius:10px; display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
-                <span style="font-size:12px; font-weight:800; color:#fff;">👤 ${m.name}</span>
-                <span style="font-size:10px; color:${m.uid===currentCorpData.leaderId?'var(--warning)':'var(--primary)'}; font-weight:800;">${m.uid===currentCorpData.leaderId?'Anführer':'Mitglied'}</span>
-            </div>`).join('');
-
-        let iconSelectorHtml = "";
-        if (isLeader) {
-            let iconsHtml = CORP_ICONS.map(ic => `
-                <button onclick="changeCorpIcon('${ic}')" style="background:${ic===corpIcon?'var(--accent)':'var(--card-dark)'}; border:1px solid var(--border); font-size:18px; padding:6px; border-radius:10px; cursor:pointer;">${ic}</button>
-            `).join('');
-            iconSelectorHtml = `
-                <div style="margin-top:12px; background:var(--card-dark); border:1px solid var(--border); padding:10px; border-radius:12px;">
-                    <div style="font-size:10px; color:var(--text-muted); font-weight:800; margin-bottom:6px;">ANFÜHRER: TEAM-SYMBOL WÄHLEN</div>
-                    <div style="display:flex; gap:6px; flex-wrap:wrap; justify-content:center;">${iconsHtml}</div>
+    supabaseClient.auth.getUser().then(({ data: { user } }) => {
+        if (!state.corpId || !currentCorpData) {
+            box.innerHTML = `
+                <div style="background:var(--surface-glass); padding:16px; border-radius:16px; border:1px solid var(--border); text-align:center;">
+                    <div style="font-size:14px; font-weight:800; color:#fff; margin-bottom:6px;">Du bist aktuell in keiner Korporation</div>
+                    <div style="font-size:11px; color:var(--text-muted); margin-bottom:14px;">Gründe für 50 💎 dein eigenes Team oder tritt einer offenen Korporation bei!</div>
+                    <button class="btn" style="background:linear-gradient(135deg, #ec4899, #8b5cf6); color:#fff; font-size:14px;" onclick="createCorporation()">
+                        🏢 Neue Korporation gründen (50 💎)
+                    </button>
+                    <hr style="border:0; border-top:1px solid var(--border); margin:16px 0;">
+                    <div style="font-size:12px; font-weight:800; color:var(--primary); margin-bottom:8px;">Offene Korporationen Suchen</div>
+                    <div id="open-corps-list" style="font-size:11px; color:var(--text-muted);">Lade verfügbare Teams...</div>
                 </div>`;
-        }
+            fetchOpenCorporations();
+        } else {
+            let corpTrophies = getCorpTotalTrophies();
+            let corpIncome = getCorpTotalIncome();
+            let isLeader = user && currentCorpData.leader_id === user.id;
+            let corpIcon = currentCorpData.icon || "🚀";
 
-        box.innerHTML = `
-            <div style="background:var(--surface-glass); padding:16px; border-radius:16px; border:1px solid var(--border);">
-                <!-- ZUSAMMENFASSUNGS-BOARD -->
-                <div style="background: linear-gradient(135deg, rgba(139,92,246,0.25), rgba(56,189,248,0.15)); border: 1px solid var(--accent); border-radius: 14px; padding: 12px 14px; margin-bottom: 14px; display: flex; justify-content: space-around; align-items: center; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.3);">
-                    <div>
-                        <div style="font-size: 10px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px;">Gesamt-POIs Ertrag</div>
-                        <div style="font-size: 16px; font-weight: 900; color: var(--success); margin-top: 2px;">+${formatNumber(corpIncome)} / Std.</div>
+            let memberListHtml = currentCorpData.members.map(m => `
+                <div style="background:var(--card-dark); border:1px solid var(--border); padding:8px 12px; border-radius:10px; display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+                    <span style="font-size:12px; font-weight:800; color:#fff;">👤 ${m.name}</span>
+                    <span style="font-size:10px; color:${m.uid===currentCorpData.leader_id?'var(--warning)':'var(--primary)'}; font-weight:800;">${m.uid===currentCorpData.leader_id?'Anführer':'Mitglied'}</span>
+                </div>`).join('');
+
+            let iconSelectorHtml = "";
+            if (isLeader) {
+                let iconsHtml = CORP_ICONS.map(ic => `
+                    <button onclick="changeCorpIcon('${ic}')" style="background:${ic===corpIcon?'var(--accent)':'var(--card-dark)'}; border:1px solid var(--border); font-size:18px; padding:6px; border-radius:10px; cursor:pointer;">${ic}</button>
+                `).join('');
+                iconSelectorHtml = `
+                    <div style="margin-top:12px; background:var(--card-dark); border:1px solid var(--border); padding:10px; border-radius:12px;">
+                        <div style="font-size:10px; color:var(--text-muted); font-weight:800; margin-bottom:6px;">ANFÜHRER: TEAM-SYMBOL WÄHLEN</div>
+                        <div style="display:flex; gap:6px; flex-wrap:wrap; justify-content:center;">${iconsHtml}</div>
+                    </div>`;
+            }
+
+            box.innerHTML = `
+                <div style="background:var(--surface-glass); padding:16px; border-radius:16px; border:1px solid var(--border);">
+                    <div style="background: linear-gradient(135deg, rgba(139,92,246,0.25), rgba(56,189,248,0.15)); border: 1px solid var(--accent); border-radius: 14px; padding: 12px 14px; margin-bottom: 14px; display: flex; justify-content: space-around; align-items: center; text-align: center;">
+                        <div>
+                            <div style="font-size: 10px; color: var(--text-muted); text-transform: uppercase;">Gesamt-POIs Ertrag</div>
+                            <div style="font-size: 16px; font-weight: 900; color: var(--success); margin-top: 2px;">+${formatNumber(corpIncome)} / Std.</div>
+                        </div>
+                        <div style="width: 1px; height: 30px; background: var(--border);"></div>
+                        <div>
+                            <div style="font-size: 10px; color: var(--text-muted); text-transform: uppercase;">Gesamte Pokale</div>
+                            <div style="font-size: 16px; font-weight: 900; color: var(--warning); margin-top: 2px;">🏆 ${corpTrophies.toLocaleString()}</div>
+                        </div>
                     </div>
-                    <div style="width: 1px; height: 30px; background: var(--border);"></div>
-                    <div>
-                        <div style="font-size: 10px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px;">Gesamte Pokale</div>
-                        <div style="font-size: 16px; font-weight: 900; color: var(--warning); margin-top: 2px;">🏆 ${corpTrophies.toLocaleString()}</div>
+
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+                        <div>
+                            <div style="font-size:18px; font-weight:900; color:#c084fc;">${corpIcon} ${currentCorpData.name}</div>
+                            <div style="font-size:11px; color:var(--text-muted);">Anführer: ${currentCorpData.leader_name}</div>
+                        </div>
+                        <div style="text-align:right;">
+                            <div style="font-size:11px; color:var(--primary); font-weight:800;">👥 ${currentCorpData.members.length} / 5 Mitglieder</div>
+                        </div>
                     </div>
-                </div>
 
-                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-                    <div>
-                        <div style="font-size:18px; font-weight:900; color:#c084fc;">${corpIcon} ${currentCorpData.name}</div>
-                        <div style="font-size:11px; color:var(--text-muted);">Anführer: ${currentCorpData.leaderName}</div>
+                    ${iconSelectorHtml}
+
+                    <div style="margin-top:12px; margin-bottom:12px;">
+                        <div style="font-size:11px; font-weight:800; color:var(--text-muted); margin-bottom:6px;">TEAM MITGLIEDER:</div>
+                        ${memberListHtml}
                     </div>
-                    <div style="text-align:right;">
-                        <div style="font-size:11px; color:var(--primary); font-weight:800;">👥 ${currentCorpData.members.length} / 5 Mitglieder</div>
-                    </div>
-                </div>
-
-                ${iconSelectorHtml}
-
-                <div style="margin-top:12px; margin-bottom:12px;">
-                    <div style="font-size:11px; font-weight:800; color:var(--text-muted); margin-bottom:6px;">TEAM MITGLIEDER:</div>
-                    ${memberListHtml}
-                </div>
-                <button class="btn" style="background:var(--danger); color:#fff; font-size:12px; padding:8px; margin-top:4px;" onclick="leaveCorporation()">
-                    🚪 Korporation verlassen / Auflösen
-                </button>
-            </div>`;
-    }
-}
-
-function fetchOpenCorporations() {
-    let listEl = document.getElementById('open-corps-list');
-    if (!listEl) return;
-
-    db.collection("corporations").limit(10).get().then(snapshot => {
-        let corps = [];
-        snapshot.forEach(doc => corps.push(doc.data()));
-
-        if (corps.length === 0) {
-            listEl.innerText = "Aktuell gibt es noch keine Korporationen. Sei der Erste!";
-            return;
-        }
-
-        listEl.innerHTML = corps.map(c => {
-            let canJoin = c.members.length < 5;
-            let trophies = c.pois ? Math.floor(c.pois.reduce((acc, p) => acc + (p.level || 0), 0) / 10) : 0;
-            let icon = c.icon || "🏢";
-            return `
-                <div style="background:var(--card-dark); border:1px solid var(--border); padding:10px 12px; border-radius:12px; display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
-                    <div>
-                        <div style="font-size:13px; font-weight:900; color:#fff;">${icon} ${c.name}</div>
-                        <div style="font-size:10px; color:var(--text-muted);">Anführer: ${c.leaderName || 'Unbekannt'} | 👥 ${c.members.length}/5 | 🏆 ${trophies.toLocaleString()} Pokale</div>
-                    </div>
-                    <button class="btn" style="background:var(--success); color:#000; width:auto; padding:6px 14px; font-size:11px; margin:0;" ${canJoin?'':'disabled'} onclick="joinCorporation('${c.id}', '${c.name}')">
-                        ${canJoin ? 'Beitreten' : 'Voll'}
+                    <button class="btn" style="background:var(--danger); color:#fff; font-size:12px; padding:8px; margin-top:4px;" onclick="leaveCorporation()">
+                        🚪 Korporation verlassen / Auflösen
                     </button>
                 </div>`;
-        }).join('');
+        }
     });
 }
 
-function fetchCorpLeaderboard() {
+async function fetchOpenCorporations() {
+    let listEl = document.getElementById('open-corps-list');
+    if (!listEl) return;
+
+    let { data, error } = await supabaseClient.from('corporations').select('*').limit(10);
+    if (error || !data || data.length === 0) {
+        listEl.innerText = "Aktuell gibt es noch keine Korporationen.";
+        return;
+    }
+
+    listEl.innerHTML = data.map(c => {
+        let canJoin = c.members.length < 5;
+        let trophies = c.pois ? Math.floor(c.pois.reduce((acc, p) => acc + (p.level || 0), 0) / 10) : 0;
+        let icon = c.icon || "🏢";
+        return `
+            <div style="background:var(--card-dark); border:1px solid var(--border); padding:10px 12px; border-radius:12px; display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+                <div>
+                    <div style="font-size:13px; font-weight:900; color:#fff;">${icon} ${c.name}</div>
+                    <div style="font-size:10px; color:var(--text-muted);">Anführer: ${c.leader_name || 'Unbekannt'} | 👥 ${c.members.length}/5 | 🏆 ${trophies.toLocaleString()} Pokale</div>
+                </div>
+                <button class="btn" style="background:var(--success); color:#000; width:auto; padding:6px 14px; font-size:11px; margin:0;" ${canJoin?'':'disabled'} onclick="joinCorporation('${c.id}', '${c.name}')">
+                    ${canJoin ? 'Beitreten' : 'Voll'}
+                </button>
+            </div>`;
+    }).join('');
+}
+
+async function fetchCorpLeaderboard() {
     let box = document.getElementById('corp-leaderboard-list');
     if (!box) return;
-    box.innerHTML = "<div style='color:var(--text-muted); font-size:12px;'>Lade Korporations-Rangliste aus der Cloud...</div>";
+    box.innerHTML = "<div style='color:var(--text-muted); font-size:12px;'>Lade Korporations-Rangliste...</div>";
 
-    db.collection("corporations").get().then(snapshot => {
-        let corps = [];
-        snapshot.forEach(doc => {
-            let d = doc.data();
-            let trophies = d.pois ? Math.floor(d.pois.reduce((acc, p) => acc + (p.level || 0), 0) / 10) : 0;
-            corps.push({ name: d.name, icon: d.icon || "🏢", leader: d.leaderName, members: d.members.length, trophies: trophies, id: d.id });
-        });
+    let { data, error } = await supabaseClient.from('corporations').select('*');
+    if (error || !data || data.length === 0) {
+        box.innerHTML = "<div style='color:var(--text-muted); text-align:center;'>Noch keine Korporationen gegründet.</div>";
+        return;
+    }
 
-        corps.sort((a, b) => b.trophies - a.trophies);
+    let corps = data.map(d => {
+        let trophies = d.pois ? Math.floor(d.pois.reduce((acc, p) => acc + (p.level || 0), 0) / 10) : 0;
+        return { name: d.name, icon: d.icon || "🏢", leader: d.leader_name, members: d.members.length, trophies: trophies, id: d.id };
+    });
 
-        box.innerHTML = "";
-        if (corps.length === 0) {
-            box.innerHTML = "<div style='color:var(--text-muted); text-align:center;'>Noch keine Korporationen gegründet.</div>";
-            return;
-        }
+    corps.sort((a, b) => b.trophies - a.trophies);
 
-        corps.forEach((c, idx) => {
-            let rankColor = idx === 0 ? "var(--warning)" : idx === 1 ? "#cbd5e1" : idx === 2 ? "#b45309" : "var(--text-muted)";
-            let isOwn = c.id === state.corpId;
+    box.innerHTML = "";
+    corps.forEach((c, idx) => {
+        let rankColor = idx === 0 ? "var(--warning)" : idx === 1 ? "#cbd5e1" : idx === 2 ? "#b45309" : "var(--text-muted)";
+        let isOwn = c.id === state.corpId;
 
-            box.innerHTML += `
-                <div style="background:var(--surface-glass); padding:10px 12px; border-radius:12px; margin-bottom:6px; display:flex; justify-content:space-between; align-items:center; border:1px solid ${isOwn?'var(--warning)':'var(--border)'};">
-                    <div style="display:flex; gap:10px; align-items:center;">
-                        <span style="font-weight:900; color:${rankColor}; width:20px;">#${idx+1}</span>
-                        <div>
-                            <div style="font-weight:800; font-size:13px; color:${isOwn?'var(--warning)':'#fff'};">${c.icon} ${c.name} ${isOwn?'(Dein Team)':''}</div>
-                            <div style="font-size:9px; color:var(--text-muted);">Anführer: ${c.leader} | 👥 ${c.members}/5 Mitglieder</div>
-                        </div>
+        box.innerHTML += `
+            <div style="background:var(--surface-glass); padding:10px 12px; border-radius:12px; margin-bottom:6px; display:flex; justify-content:space-between; align-items:center; border:1px solid ${isOwn?'var(--warning)':'var(--border)'};">
+                <div style="display:flex; gap:10px; align-items:center;">
+                    <span style="font-weight:900; color:${rankColor}; width:20px;">#${idx+1}</span>
+                    <div>
+                        <div style="font-weight:800; font-size:13px; color:${isOwn?'var(--warning)':'#fff'};">${c.icon} ${c.name} ${isOwn?'(Dein Team)':''}</div>
+                        <div style="font-size:9px; color:var(--text-muted);">Anführer: ${c.leader} | 👥 ${c.members}/5 Mitglieder</div>
                     </div>
-                    <div style="font-weight:800; font-size:13px; color:var(--warning);">🏆 ${c.trophies.toLocaleString()} Pokale</div>
-                </div>`;
-        });
+                </div>
+                <div style="font-weight:800; font-size:13px; color:var(--warning);">🏆 ${c.trophies.toLocaleString()} Pokale</div>
+            </div>`;
     });
 }
 
@@ -1918,25 +1766,16 @@ function renderPois() {
                     </div>
 
                     <div class="poi-upgrade-buttons-row">
-                        <button class="poi-up-btn btn-lvl1" ${isMax?'disabled':''} onclick="upgradeCorpPoiMultiple(${i}, 1)" title="1 Ebene kaufen (+${formatNumber(cost1)})">
-                            <i class="fa-solid fa-house"></i>
-                            <span style="font-size:9px; font-weight:800; margin-top:2px;">+1</span>
-                        </button>
-                        <button class="poi-up-btn btn-lvl10" ${isMax?'disabled':''} onclick="upgradeCorpPoiMultiple(${i}, 10)" title="10 Ebenen kaufen (+${formatNumber(cost10)})">
-                            <i class="fa-solid fa-house"></i>
-                            <span style="font-size:9px; font-weight:800; margin-top:2px;">+10</span>
-                        </button>
-                        <button class="poi-up-btn btn-lvl100" ${isMax?'disabled':''} onclick="upgradeCorpPoiMultiple(${i}, 100)" title="100 Ebenen kaufen (+${formatNumber(cost100)})">
-                            <i class="fa-solid fa-house"></i>
-                            <span style="font-size:9px; font-weight:800; margin-top:2px;">+100</span>
-                        </button>
+                        <button class="poi-up-btn btn-lvl1" ${isMax?'disabled':''} onclick="upgradeCorpPoiMultiple(${i}, 1)">+1</button>
+                        <button class="poi-up-btn btn-lvl10" ${isMax?'disabled':''} onclick="upgradeCorpPoiMultiple(${i}, 10)">+10</button>
+                        <button class="poi-up-btn btn-lvl100" ${isMax?'disabled':''} onclick="upgradeCorpPoiMultiple(${i}, 100)">+100</button>
                     </div>
                 </div>`;
         }
     }
 }
 
-function upgradeCorpPoiMultiple(i, count) {
+async function upgradeCorpPoiMultiple(i, count) {
     if (!state.corpId || !currentCorpData) return;
     let poi = currentCorpData.pois[i];
     if (poi.level >= 100000) return;
@@ -1949,12 +1788,9 @@ function upgradeCorpPoiMultiple(i, count) {
         state.money -= totalCost;
         poi.level = targetLevel;
 
-        db.collection("corporations").doc(state.corpId).update({
-            pois: currentCorpData.pois
-        }).then(() => {
-            updateUI();
-            saveGame();
-        });
+        await supabaseClient.from('corporations').update({ pois: currentCorpData.pois }).eq('id', state.corpId);
+        updateUI();
+        saveGame();
     } else {
         alert(`Nicht genügend Bargeld! Du benötigst ${formatNumber(totalCost)}.`);
     }
@@ -1976,9 +1812,7 @@ function claimDailyPois() {
         if (idx1 >= 0 && currentCorpData.pois[idx1]) currentCorpData.pois[idx1].level = Math.min(100000, (currentCorpData.pois[idx1].level || 0) + 1);
         if (idx2 >= 0 && currentCorpData.pois[idx2]) currentCorpData.pois[idx2].level = Math.min(100000, (currentCorpData.pois[idx2].level || 0) + 1);
 
-        db.collection("corporations").doc(state.corpId).update({
-            pois: currentCorpData.pois
-        });
+        supabaseClient.from('corporations').update({ pois: currentCorpData.pois }).eq('id', state.corpId);
     }
 
     updateUI(); saveGame();
@@ -2357,7 +2191,7 @@ function renderAlbumView() {
     });
 }
 
-function handleLogin() {
+async function handleLogin() {
     let email = document.getElementById('auth-email').value.trim();
     let pass = document.getElementById('auth-password').value;
     let errBox = document.getElementById('auth-error');
@@ -2374,60 +2208,50 @@ function handleLogin() {
     btnAction.innerText = "Lade Spielstand...";
     btnAction.disabled = true;
 
-    let localSaveRaw = localStorage.getItem("imperium_local_temp_save");
+    let { data, error } = await supabaseClient.auth.signInWithPassword({ email, pass });
 
-    auth.signInWithEmailAndPassword(email, pass)
-    .then((userCredential) => {
-        let uid = userCredential.user.uid;
-        state.userId = uid;
-        state.playerEmail = userCredential.user.email;
-
-        loadGameFromCloud((cloudData) => {
-            let defaultState = createDefaultState();
-            
-            if (cloudData && typeof cloudData === 'object' && cloudData.money !== undefined) {
-                state = { ...defaultState, ...cloudData };
-            } else {
-                let localSave = null;
-                try { localSave = JSON.parse(localSaveRaw); } catch(e){}
-
-                if (localSave && typeof localSave === 'object') {
-                    state = { ...defaultState, ...localSave };
-                } else {
-                    state = defaultState;
-                }
-            }
-
-            state.userId = uid;
-            state.playerEmail = userCredential.user.email;
-
-            let splashName = document.getElementById('splash-player-name');
-            let splashMoney = document.getElementById('splash-money');
-            if (splashName) splashName.innerText = state.playerName || "Spieler";
-            if (splashMoney) splashMoney.innerText = formatNumber(state.money);
-
-            updateUI();
-            saveGame();
-            checkOwnerRescueVisibility();
-
-            document.getElementById('auth-overlay').classList.add('hidden');
-            document.getElementById('splash-overlay').classList.remove('hidden');
-
-            initCloudChatListener();
-            initCorpCloudListener();
-            btnAction.innerText = "Einloggen & Spielstand Laden";
-            btnAction.disabled = false;
-        });
-    })
-    .catch((error) => {
+    if (error) {
         btnAction.innerText = "Einloggen & Spielstand Laden";
         btnAction.disabled = false;
         errBox.innerText = "Login fehlgeschlagen: " + error.message;
         errBox.style.display = 'block';
-    });
+    } else {
+        let user = data.user;
+        state.userId = user.id;
+        state.playerEmail = user.email;
+
+        let { data: saveDoc } = await supabaseClient.from('game_saves').select('*').eq('user_id', user.id).single();
+        let defaultState = createDefaultState();
+
+        if (saveDoc && saveDoc.save_data) {
+            state = { ...defaultState, ...saveDoc.save_data };
+        } else {
+            state = defaultState;
+        }
+
+        state.userId = user.id;
+        state.playerEmail = user.email;
+
+        let splashName = document.getElementById('splash-player-name');
+        let splashMoney = document.getElementById('splash-money');
+        if (splashName) splashName.innerText = state.playerName || "Spieler";
+        if (splashMoney) splashMoney.innerText = formatNumber(state.money);
+
+        updateUI();
+        saveGame();
+        checkOwnerRescueVisibility();
+
+        document.getElementById('auth-overlay').classList.add('hidden');
+        document.getElementById('splash-overlay').classList.remove('hidden');
+
+        initCloudChatListener();
+        initCorpCloudListener();
+        btnAction.innerText = "Einloggen & Spielstand Laden";
+        btnAction.disabled = false;
+    }
 }
 
-function handleRegister() {
+async function handleRegister() {
     let email = document.getElementById('auth-email').value.trim();
     let pass = document.getElementById('auth-password').value;
     let errBox = document.getElementById('auth-error');
@@ -2439,20 +2263,19 @@ function handleRegister() {
         return;
     }
 
-    auth.createUserWithEmailAndPassword(email, pass)
-    .then((userCredential) => {
-        alert("🎉 Account erfolgreich erstellt! Du kannst dich jetzt einloggen.");
-    })
-    .catch((error) => {
+    let { error } = await supabaseClient.auth.signUp({ email, pass });
+    if (error) {
         errBox.innerText = "Registrierung fehlgeschlagen: " + error.message;
         errBox.style.display = 'block';
-    });
+    } else {
+        alert("🎉 Account erfolgreich erstellt! Du kannst dich jetzt einloggen.");
+    }
 }
 
-function handleLogout() {
-    if (chatUnsubscribe) chatUnsubscribe();
-    if (corpListenerUnsubscribe) corpListenerUnsubscribe();
-    auth.signOut().then(() => { location.reload(); });
+async function handleLogout() {
+    if (chatSubscription) supabaseClient.removeChannel(chatSubscription);
+    await supabaseClient.auth.signOut();
+    location.reload();
 }
 
 function closeStartScreen() {
@@ -2585,8 +2408,8 @@ function generateAllMonthlyPois() {
 
 function createDefaultState() {
     return {
-        userId: auth.currentUser ? auth.currentUser.uid : "temp_usr",
-        playerEmail: auth.currentUser ? auth.currentUser.email : "",
+        userId: "temp_usr",
+        playerEmail: "",
         money: 100, bankMoney: 0, loan: 0, diamonds: 0, playerName: "Spieler_" + Math.floor(Math.random()*1000), avatarIndex: 0, activeCategory: 'Alle',
         corpId: "",
         workLevel: 1, workBasePower: 1, workCost: 20, workDiamondLevel: 0,
@@ -2595,11 +2418,8 @@ function createDefaultState() {
         expeditionEndTimestamp: 0,
         expeditionLevel: 1,
         lastPayoutTimestamp: Date.now(),
-        lastLoginDate: "",
         lastPoiClaimDate: "",
-        lastWheelSpinDate: "",
         streakDays: 1,
-        lastStreakDate: "",
         statTotalClicksEarned: 0,
         statExpeditionsCompleted: 0,
         seasonMonthKey: getCurrentMonthKey(),
@@ -2625,83 +2445,16 @@ function createDefaultState() {
         ],
         crypto: [
             { id: "btc", name: "🪙 Bitcoin (BTC)", price: 81300, owned: 0, spent: 0, staked: 0, change: "+2.4", minerCount: 0, minerLevel: 1 },
-            { id: "eth", name: "Ξ Ethereum (ETH)", price: 2380, owned: 0, spent: 0, staked: 0, change: "-0.8", minerCount: 0, minerLevel: 1 },
-            { id: "sol", name: "⚡ Solana (SOL)", price: 103.50, owned: 0, spent: 0, staked: 0, change: "+5.1", minerCount: 0, minerLevel: 1 },
-            { id: "bnb", name: "🔶 Binance Coin (BNB)", price: 727.60, owned: 0, spent: 0, staked: 0, change: "+1.2", minerCount: 0, minerLevel: 1 },
-            { id: "ada", name: "🔵 Cardano (ADA)", price: 0.58, owned: 0, spent: 0, staked: 0, change: "-1.5", minerCount: 0, minerLevel: 1 },
-            { id: "doge", name: "🐕 Dogecoin (DOGE)", price: 0.16, owned: 0, spent: 0, staked: 0, change: "+8.4", minerCount: 0, minerLevel: 1 },
-            { id: "xrp", name: "💧 Ripple (XRP)", price: 0.65, owned: 0, spent: 0, staked: 0, change: "+0.3", minerCount: 0, minerLevel: 1 },
-            { id: "avax", name: "🔺 Avalanche (AVAX)", price: 32.00, owned: 0, spent: 0, staked: 0, change: "+2.1", minerCount: 0, minerLevel: 1 },
-            { id: "dot", name: "🟣 Polkadot (DOT)", price: 6.80, owned: 0, spent: 0, staked: 0, change: "-0.4", minerCount: 0, minerLevel: 1 }
+            { id: "eth", name: "Ξ Ethereum (ETH)", price: 2380, owned: 0, spent: 0, staked: 0, change: "-0.8", minerCount: 0, minerLevel: 1 }
         ],
         items: [
             { id: "b1", name: "🥖 Tavernen-Bäckerei", type: "Gebäude", count: 0, cost: 30, income: 0.002, level: 1, upCost: 40, diamondLevel: 0, employee: "Bäcker Ignis", empHired: false, empCost: 150, empBonus: 0.25 },
-            { id: "b2", name: "🛒 Marktstand", type: "Gebäude", count: 0, cost: 120, income: 0.01, level: 1, upCost: 150, diamondLevel: 0, employee: "Händler Tom", empHired: false, empCost: 600, empBonus: 0.25 },
-            { id: "b3", name: "☕ Magische Teestube", type: "Gebäude", count: 0, cost: 500, income: 0.04, level: 1, upCost: 650, diamondLevel: 0, employee: "Chef-Barista Mia", empHired: false, empCost: 2500, empBonus: 0.25 },
-            { id: "b4", name: "🏨 Gasthof zum Greif", type: "Gebäude", count: 0, cost: 2000, income: 0.15, level: 1, upCost: 2600, diamondLevel: 0, employee: "Wirt Mr. Smith", empHired: false, empCost: 10000, empBonus: 0.25 },
-            { id: "b5", name: "⛽ Alchemie-Tankstelle", type: "Gebäude", count: 0, cost: 8000, income: 0.6, level: 1, upCost: 10000, diamondLevel: 0, employee: "Alchemist Rex", empHired: false, empCost: 40000, empBonus: 0.25 },
-            { id: "b6", name: "🏭 Weberei", type: "Gebäude", count: 0, cost: 30000, income: 2.2, level: 1, upCost: 40000, diamondLevel: 0, employee: "Meister Karl", empHired: false, empCost: 150000, empBonus: 0.25 },
-            { id: "b7", name: "🏗️ Steinmetz-Gilde", type: "Gebäude", count: 0, cost: 100000, income: 7.5, level: 1, upCost: 130000, diamondLevel: 0, employee: "Polier Bob", empHired: false, empCost: 500000, empBonus: 0.25 },
-            { id: "b8", name: "🛍️ Großer Basar", type: "Gebäude", count: 0, cost: 350000, income: 26.0, level: 1, upCost: 450000, diamondLevel: 0, employee: "Marktmeisterin Sarah", empHired: false, empCost: 1800000, empBonus: 0.25 },
-            { id: "b9", name: "🚢 Königlicher Hafen", type: "Gebäude", count: 0, cost: 1200000, income: 90.0, level: 1, upCost: 1600000, diamondLevel: 0, employee: "Kapitän Hook", empHired: false, empCost: 6000000, empBonus: 0.25 },
-            { id: "b10", name: "🚆 Dampf-Express", type: "Gebäude", count: 0, cost: 4000000, income: 310.0, level: 1, upCost: 5200000, diamondLevel: 0, employee: "Lokführer Alex", empHired: false, empCost: 20000000, empBonus: 0.25 },
-            { id: "b11", name: "⚡ Elementarkraftwerk", type: "Gebäude", count: 0, cost: 13000000, income: 1000.0, level: 1, upCost: 17000000, diamondLevel: 0, employee: "Ingenieurin Tesla", empHired: false, empCost: 65000000, empBonus: 0.25 },
-            { id: "b12", name: "🎬 Theater-Bühne", type: "Gebäude", count: 0, cost: 42000000, income: 3300.0, level: 1, upCost: 55000000, diamondLevel: 0, employee: "Regisseur Spielberg", empHired: false, empCost: 210000000, empBonus: 0.25 },
-            { id: "b13", name: "💻 Rune-Compute-Zentrale", type: "Gebäude", count: 0, cost: 130000000, income: 10500.0, level: 1, upCost: 170000000, diamondLevel: 0, employee: "Developer Steve", empHired: false, empCost: 650000000, empBonus: 0.25 },
-            { id: "b14", name: "🔬 Hexenlabor", type: "Gebäude", count: 0, cost: 400000000, income: 33000.0, level: 1, upCost: 520000000, diamondLevel: 0, employee: "Heilerin Curie", empHired: false, empCost: 2000000000, empBonus: 0.25 },
-            { id: "b15", name: "🏦 Reichsbank", type: "Gebäude", count: 0, cost: 1200000000, income: 100000.0, level: 1, upCost: 1600000000, diamondLevel: 0, employee: "Bankier Rothschild", empHired: false, empCost: 6000000000, empBonus: 0.25 },
-            { id: "b16", name: "🤖 Golem-Schmiede", type: "Gebäude", count: 0, cost: 3800000000, income: 320000.0, level: 1, upCost: 5000000000, diamondLevel: 0, employee: "Golem T-800", empHired: false, empCost: 19000000000, empBonus: 0.25 },
-            { id: "b17", name: "🌐 Ley-Linien-Netzwerk", type: "Gebäude", count: 0, cost: 12000000000, income: 1000000.0, level: 1, upCost: 16000000000, diamondLevel: 0, employee: "Magier Matrix", empHired: false, empCost: 60000000000, empBonus: 0.25 },
-            { id: "b18", name: "🏙️ Hauptbezirk Aethelgard", type: "Gebäude", count: 0, cost: 38000000000, income: 3200000.0, level: 1, upCost: 50000000000, diamondLevel: 0, employee: "Bürgermeister Mayor", empHired: false, empCost: 190000000000, empBonus: 0.25 },
-            { id: "b19", name: "🧬 Gen-Labor", type: "Gebäude", count: 0, cost: 120000000000, income: 10000000.0, level: 1, upCost: 160000000000, diamondLevel: 0, employee: "Pionier Helix", empHired: false, empCost: 600000000000, empBonus: 0.25 },
-            { id: "b20", name: "🌍 Welten-Regulator", type: "Gebäude", count: 0, cost: 380000000000, income: 32000000.0, level: 1, upCost: 500000000000, diamondLevel: 0, employee: "Wächterin Terra", empHired: false, empCost: 1900000000000, empBonus: 0.25 },
-
-            { id: "w1", name: "🌕 Mond-Aussenposten", type: "Weltraum", count: 0, cost: 1200000000000, income: 100000000.0, level: 1, upCost: 1500000000000, diamondLevel: 0, employee: "Kommandant Armstrong", empHired: false, empCost: 6000000000000, empBonus: 0.25 },
-            { id: "w2", name: "🛰️ Äther-Sphäre", type: "Weltraum", count: 0, cost: 3800000000000, income: 320000000.0, level: 1, upCost: 5000000000000, diamondLevel: 0, employee: "Techniker Sputnik", empHired: false, empCost: 19000000000000, empBonus: 0.25 },
-            { id: "w3", name: "☄️ Meteoriten-Mine", type: "Weltraum", count: 0, cost: 12000000000000, income: 1000000000.0, level: 1, upCost: 16000000000000, diamondLevel: 0, employee: "Miner Rock", empHired: false, empCost: 60000000000000, empBonus: 0.25 },
-            { id: "w4", name: "🚀 Sternen-Werft", type: "Weltraum", count: 0, cost: 38000000000000, income: 3200000000.0, level: 1, upCost: 50000000000000, diamondLevel: 0, employee: "Ingenieur Starflight", empHired: false, empCost: 190000000000000, empBonus: 0.25 },
-            { id: "w5", name: "🔴 Mars-Basis", type: "Weltraum", count: 0, cost: 120000000000000, income: 10000000000.0, level: 1, upCost: 160000000000000, diamondLevel: 0, employee: "Gouverneur Elon", empHired: false, empCost: 600000000000000, empBonus: 0.25 },
-            { id: "w6", name: "🪐 Titan-Außenposten", type: "Weltraum", count: 0, cost: 380000000000000, income: 32000000000.0, level: 1, upCost: 500000000000000, diamondLevel: 0, employee: "Chemist Methane", empHired: false, empCost: 1900000000000000, empBonus: 0.25 },
-            { id: "w7", name: "☀️ Sonnen-Sonde", type: "Weltraum", count: 0, cost: 1200000000000000, income: 100000000000.0, level: 1, upCost: 1600000000000000, diamondLevel: 0, employee: "Forscher Helios", empHired: false, empCost: 6000000000000000, empBonus: 0.25 },
-            { id: "w8", name: "🌌 Kosmos-Teleskop", type: "Weltraum", count: 0, cost: 3800000000000000, income: 320000000000.0, level: 1, upCost: 5000000000000000, diamondLevel: 0, employee: "Astronom Hubble", empHired: false, empCost: 19000000000000000, empBonus: 0.25 },
-            { id: "w9", name: "🛸 UFO-Forschung", type: "Weltraum", count: 0, cost: 12000000000000000, income: 1000000000000.0, level: 1, upCost: 16000000000000000, diamondLevel: 0, employee: "Xenobiologe Xylar", empHired: false, empCost: 60000000000000000, empBonus: 0.25 },
-            { id: "w10", name: "🪐 Saturn-Plattform", type: "Weltraum", count: 0, cost: 38000000000000000, income: 3200000000002.0, level: 1, upCost: 50000000000000000, diamondLevel: 0, employee: "Direktor Cassini", empHired: false, empCost: 190000000000000000, empBonus: 0.25 },
-            { id: "w11", name: "🌀 Portal-Stabilisator", type: "Weltraum", count: 0, cost: 120000000000000000, income: 10000000000000.0, level: 1, upCost: 160000000000000000, diamondLevel: 0, employee: "Physiker Thorne", empHired: false, empCost: 600000000000000000, empBonus: 0.25 },
-            { id: "w12", name: "🌠 Hyperraum-Tor", type: "Weltraum", count: 0, cost: 380000000000000000, income: 32000000000000.0, level: 1, upCost: 500000000000000000, diamondLevel: 0, employee: "Wächterin Nova", empHired: false, empCost: 1900000000000000000, empBonus: 0.25 },
-            { id: "w13", name: "🛸 Sternenflotte", type: "Weltraum", count: 0, cost: 1200000000000000000, income: 100000000000000.0, level: 1, upCost: 1600000000000000000, diamondLevel: 0, employee: "Admiral Vanguard", empHired: false, empCost: 6000000000000000000, empBonus: 0.25 },
-            { id: "w14", name: "💫 Dunkle-Energie-Kern", type: "Weltraum", count: 0, cost: 3800000000000000000, income: 320000000000000.0, level: 1, upCost: 5000000000000000000, diamondLevel: 0, employee: "Forscherin Umbra", empHired: false, empCost: 19000000000000000000, empBonus: 0.25 },
-            { id: "w15", name: "👽 Welten-Terraformer", type: "Weltraum", count: 0, cost: 12000000000000000000, income: 1000000000000000.0, level: 1, upCost: 16000000000000000000, diamondLevel: 0, employee: "Genesis", empHired: false, empCost: 60000000000000000000, empBonus: 0.25 },
-            { id: "w16", name: "⚡ Dyson-Schwarm", type: "Weltraum", count: 0, cost: 38000000000000000000, income: 3200000000000000.0, level: 1, upCost: 50000000000000000000, diamondLevel: 0, employee: "Freeman", empHired: false, empCost: 190000000000000000000, empBonus: 0.25 },
-            { id: "w17", name: "🪐 Gasriesen-Sammler", type: "Weltraum", count: 0, cost: 120000000000000000000, income: 10000000000000000.0, level: 1, upCost: 160000000000000000000, diamondLevel: 0, employee: "Zephyr", empHired: false, empCost: 600000000000000000000, empBonus: 0.25 },
-            { id: "w18", name: "🌌 Singuläres Kraftwerk", type: "Weltraum", count: 0, cost: 380000000000000000000, income: 32000000000000000.0, level: 1, upCost: 500000000000000000000, diamondLevel: 0, employee: "Hawking", empHired: false, empCost: 1900000000000000000000, empBonus: 0.25 },
-            { id: "w19", name: "✨ Galaktischer Nexus", type: "Weltraum", count: 0, cost: 1200000000000000000000, income: 100000000000000000.0, level: 1, upCost: 1600000000000000000000, diamondLevel: 0, employee: "Imperator Prime", empHired: false, empCost: 6000000000000000000000, empBonus: 0.25 },
-            { id: "w20", name: "🌟 Schöpfungs-Katalysator", type: "Weltraum", count: 0, cost: 3800000000000000000000, income: 320000000000000000.0, level: 1, upCost: 5000000000000000000000, diamondLevel: 0, employee: "Der Architekt", empHired: false, empCost: 19000000000000000000000, empBonus: 0.25 },
-
-            { id: "l1", name: "🛩️ Magischer Teppich", type: "Luxus", count: 0, cost: 500000000, income: 45000.0, level: 1, upCost: 650000000, diamondLevel: 0, employee: "Pilot Maverick", empHired: false, empCost: 2500000000, empBonus: 0.25 },
-            { id: "l2", name: "🛥️ Drachen-Boot", type: "Luxus", count: 0, cost: 1500000000, income: 140000.0, level: 1, upCost: 2000000000, diamondLevel: 0, employee: "Kapitän Seabeard", empHired: false, empCost: 7500000000, empBonus: 0.25 },
-            { id: "l3", name: "🏰 Schwebende Insel", type: "Luxus", count: 0, cost: 5000000000, income: 450000.0, level: 1, upCost: 6500000000, diamondLevel: 0, employee: "Paloma", empHired: false, empCost: 25000000000, empBonus: 0.25 },
-            { id: "l4", name: "🏎️ Runen-Kutsche", type: "Luxus", count: 0, cost: 15000000000, income: 1400000.0, level: 1, upCost: 20000000000, diamondLevel: 0, employee: "Enzo", empHired: false, empCost: 75000000000, empBonus: 0.25 },
-            { id: "l5", name: "👑 Palast-Turm", type: "Luxus", count: 0, cost: 50000000000, income: 4500000.0, level: 1, upCost: 65000000000, diamondLevel: 0, employee: "Concierge Hilton", empHired: false, empCost: 250000000000, empBonus: 0.25 },
-            { id: "l6", name: "🎭 Königliche Oper", type: "Luxus", count: 0, cost: 150000000000, income: 14000000.0, level: 1, upCost: 200000000000, diamondLevel: 0, employee: "Callas", empHired: false, empCost: 750000000000, empBonus: 0.25 },
-            { id: "l7", name: "💎 Elfenbein-Mine", type: "Luxus", count: 0, cost: 500000000000, income: 45000000.0, level: 1, upCost: 650000000000, diamondLevel: 0, employee: "Tiffany", empHired: false, empCost: 2500000000000, empBonus: 0.25 },
-            { id: "l8", name: "🎨 Akademie der Künste", type: "Luxus", count: 0, cost: 1500000000000, income: 140000000.0, level: 1, upCost: 2000000000000, diamondLevel: 0, employee: "Picasso", empHired: false, empCost: 7500000000000, empBonus: 0.25 },
-            { id: "l9", name: "🍷 Nektar-Weingut", type: "Luxus", count: 0, cost: 5000000000000, income: 450000000.0, level: 1, upCost: 6500000000000, diamondLevel: 0, employee: "Sommelier Bordeaux", empHired: false, empCost: 25000000000000, empBonus: 0.25 },
-            { id: "l10", name: "🏇 Greifen-Reitstall", type: "Luxus", count: 0, cost: 15000000000000, income: 1400000000.0, level: 1, upCost: 20000000000000, diamondLevel: 0, employee: "Dettori", empHired: false, empCost: 75000000000004, empBonus: 0.25 },
-            { id: "l11", name: "🚁 Pegasus-Flotte", type: "Luxus", count: 0, cost: 50000000000000, income: 4500000000.0, level: 1, upCost: 65000000000000, diamondLevel: 0, employee: "Chopper", empHired: false, empCost: 250000000000000, empBonus: 0.25 },
-            { id: "l12", name: "🏌️ Turnier-Arena", type: "Luxus", count: 0, cost: 150000000000000, income: 14000000000.0, level: 1, upCost: 200000000000000, diamondLevel: 0, employee: "Tiger", empHired: false, empCost: 750000000000000, empBonus: 0.25 },
-            { id: "l13", name: "🏛️ Kaiserliches Schloss", type: "Luxus", count: 0, cost: 500000000000000, income: 45000000000.0, level: 1, upCost: 650000000000000, diamondLevel: 0, employee: "Windsor", empHired: false, empCost: 2500000000000000, empBonus: 0.25 },
-            { id: "l14", name: "🎬 Barden-Gilde", type: "Luxus", count: 0, cost: 1500000000000000, income: 140000000000.0, level: 1, upCost: 2000000000000000, diamondLevel: 0, employee: "Weinstein", empHired: false, empCost: 7500000000000000, empBonus: 0.25 },
-            { id: "l15", name: "🎰 Casino der Elemente", type: "Luxus", count: 0, cost: 5000000000000000, income: 450000000000.0, level: 1, upCost: 6500000000000000, diamondLevel: 0, employee: "Vegas", empHired: false, empCost: 25000000000000000, empBonus: 0.25 },
-            { id: "l16", name: "🛳️ Himmels-Kreuzer", type: "Luxus", count: 0, cost: 15000000000000000, income: 1400000000000.0, level: 1, upCost: 20000000000000000, diamondLevel: 0, employee: "Stubing", empHired: false, empCost: 75000000000000000, empBonus: 0.25 },
-            { id: "l17", name: "🌌 Astrales Refugium", type: "Luxus", count: 0, cost: 50000000000000000, income: 4500000000000.0, level: 1, upCost: 65000000000000000, diamondLevel: 0, employee: "Selene", empHired: false, empCost: 250000000000000000, empBonus: 0.25 },
-            { id: "l18", name: "👑 Thronsaal der Götter", type: "Luxus", count: 0, cost: 150000000000000000, income: 14000000000000.0, level: 1, upCost: 200000000000000000, diamondLevel: 0, employee: "Kammerherr", empHired: false, empCost: 750000000000000000, empBonus: 0.25 },
-            { id: "l19", name: "✨ Ewiger Club", type: "Luxus", count: 0, cost: 500000000000000000, income: 45000000000004.0, level: 1, upCost: 650000000000000000, diamondLevel: 0, employee: "Omnia", empHired: false, empCost: 2500000000000000000, empBonus: 0.25 },
-            { id: "l20", name: "🌟 Das Ewige Monopol", type: "Luxus", count: 0, cost: 1500000000000000000, income: 140000000000000.0, level: 1, upCost: 2000000000000000000, diamondLevel: 0, employee: "Der Ewige Tycoon", empHired: false, empCost: 7500000000000000000, empBonus: 0.25 }
+            { id: "b2", name: "🛒 Marktstand", type: "Gebäude", count: 0, cost: 120, income: 0.01, level: 1, upCost: 150, diamondLevel: 0, employee: "Händler Tom", empHired: false, empCost: 600, empBonus: 0.25 }
         ]
     };
 }
 
-let existingLocalRaw = localStorage.getItem("imperium_ultimate_save_local") || localStorage.getItem("imperium_local_temp_save");
+let existingLocalRaw = localStorage.getItem("imperium_supabase_save_local");
 let state = createDefaultState();
 
 if (existingLocalRaw) {
@@ -2713,80 +2466,75 @@ if (existingLocalRaw) {
     } catch(e){}
 }
 
-let activeGlobalEvent = null;
+async function saveGame() {
+    localStorage.setItem("imperium_supabase_save_local", JSON.stringify(state));
 
-function saveGameToCloud() {
-    if (!auth.currentUser) return;
-    let uid = auth.currentUser.uid;
-    db.collection("gameSaves").doc(uid).set(state);
+    let { data: { user } } = await supabaseClient.auth.getUser();
+    if (!user) return;
+
+    await supabaseClient.from('game_saves').upsert({
+        user_id: user.id,
+        save_data: state,
+        updated_at: new Date()
+    });
+    syncScoreToCloud();
 }
 
-function loadGameFromCloud(callback) {
-    if (!auth.currentUser) { if (callback) callback(null); return; }
-    let uid = auth.currentUser.uid;
-    db.collection("gameSaves").doc(uid).get()
-        .then(doc => {
-            if (doc.exists) callback(doc.data());
-            else callback(null);
-        })
-        .catch(err => { if (callback) callback(null); });
-}
-
-function syncScoreToCloud() {
-    if (!auth.currentUser) return;
-    let uid = auth.currentUser.uid;
+async function syncScoreToCloud() {
+    let { data: { user } } = await supabaseClient.auth.getUser();
+    if (!user) return;
     let passIcon = isSeasonPassActive() ? " 🌟" : "";
-    let myLeaderboardData = { 
-        userId: uid, 
-        name: (state.playerName || "Spieler") + passIcon, 
-        avatarIndex: state.avatarIndex || 0,
-        money: state.money || 0,
-        updated: Date.now() 
-    };
 
-    db.collection("leaderboard").doc(uid).set(myLeaderboardData);
+    await supabaseClient.from('leaderboard').upsert({
+        user_id: user.id,
+        name: (state.playerName || "Spieler") + passIcon,
+        avatar_index: state.avatarIndex || 0,
+        money: state.money || 0,
+        updated_at: new Date()
+    });
 }
 
-function fetchOnlineLeaderboard() {
+async function fetchOnlineLeaderboard() {
     let box = document.getElementById('leaderboard-list');
     if (!box) return;
     box.innerHTML = "<div style='color:var(--text-muted); font-size:12px;'>Lade weltweite Rangliste...</div>";
 
-    db.collection("leaderboard").limit(50).get()
-    .then((querySnapshot) => {
-        let players = [];
-        querySnapshot.forEach((doc) => players.push(doc.data()));
+    let { data, error } = await supabaseClient.from('leaderboard').select('*').order('money', { ascending: false }).limit(50);
 
-        players.sort((a, b) => (b.money || 0) - (a.money || 0));
+    if (error || !data) {
+        box.innerHTML = "<div style='color:var(--text-muted); text-align:center;'>Fehler beim Laden der Bestenliste.</div>";
+        return;
+    }
 
-        box.innerHTML = "";
-        if (players.length === 0) {
-            box.innerHTML = "<div style='color:var(--text-muted); text-align:center;'>Noch keine Spieler in der Bestenliste.</div>";
-            return;
-        }
+    box.innerHTML = "";
+    if (data.length === 0) {
+        box.innerHTML = "<div style='color:var(--text-muted); text-align:center;'>Noch keine Spieler in der Bestenliste.</div>";
+        return;
+    }
 
-        let currentUid = auth.currentUser ? auth.currentUser.uid : "";
-        players.forEach((p, idx) => {
-            let isUser = p.userId === currentUid;
-            let rankColor = idx === 0 ? "var(--warning)" : idx === 1 ? "#cbd5e1" : idx === 2 ? "#b45309" : "var(--text-muted)";
-            let pAvatarUrl = AVATAR_LIST[p.avatarIndex !== undefined ? p.avatarIndex : 0] || AVATAR_LIST[0];
-            let pTitle = getTycoonTitle(p.money || 0);
+    let { data: { user } } = await supabaseClient.auth.getUser();
+    let currentUid = user ? user.id : "";
 
-            box.innerHTML += `
-                <div style="background:var(--surface-glass); padding:10px 12px; border-radius:12px; margin-bottom:6px; display:flex; justify-content:space-between; align-items:center; border:1px solid ${isUser?'var(--warning)':'var(--border)'};">
-                    <div style="display:flex; gap:10px; align-items:center;">
-                        <span style="font-weight:900; color:${rankColor}; width:20px;">#${idx+1}</span>
-                        <div style="width:36px; height:36px; border-radius:50%; overflow:hidden; border:1px solid var(--accent); flex-shrink:0; background:var(--card-dark);">
-                            <img src="${pAvatarUrl}" alt="Avatar" style="width:100%; height:100%; object-fit:cover;">
-                        </div>
-                        <div>
-                            <div style="font-weight:700; font-size:13px; color:${isUser?'var(--warning)':'#fff'};">${p.name} ${isUser?'(Du)':''}</div>
-                            <div style="font-size:9px; color:var(--text-muted);">${pTitle}</div>
-                        </div>
+    data.forEach((p, idx) => {
+        let isUser = p.user_id === currentUid;
+        let rankColor = idx === 0 ? "var(--warning)" : idx === 1 ? "#cbd5e1" : idx === 2 ? "#b45309" : "var(--text-muted)";
+        let pAvatarUrl = AVATAR_LIST[p.avatar_index !== undefined ? p.avatar_index : 0] || AVATAR_LIST[0];
+        let pTitle = getTycoonTitle(p.money || 0);
+
+        box.innerHTML += `
+            <div style="background:var(--surface-glass); padding:10px 12px; border-radius:12px; margin-bottom:6px; display:flex; justify-content:space-between; align-items:center; border:1px solid ${isUser?'var(--warning)':'var(--border)'};">
+                <div style="display:flex; gap:10px; align-items:center;">
+                    <span style="font-weight:900; color:${rankColor}; width:20px;">#${idx+1}</span>
+                    <div style="width:36px; height:36px; border-radius:50%; overflow:hidden; border:1px solid var(--accent); flex-shrink:0; background:var(--card-dark);">
+                        <img src="${pAvatarUrl}" alt="Avatar" style="width:100%; height:100%; object-fit:cover;">
                     </div>
-                    <div style="font-weight:800; font-size:13px; color:var(--success);">${formatNumber(p.money || 0)}</div>
-                </div>`;
-        });
+                    <div>
+                        <div style="font-weight:700; font-size:13px; color:${isUser?'var(--warning)':'#fff'};">${p.name} ${isUser?'(Du)':''}</div>
+                        <div style="font-size:9px; color:var(--text-muted);">${pTitle}</div>
+                    </div>
+                </div>
+                <div style="font-weight:800; font-size:13px; color:var(--success);">${formatNumber(p.money || 0)}</div>
+            </div>`;
     });
 }
 
@@ -2795,7 +2543,7 @@ function exportSaveFile() {
     let dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(state));
     let downloadAnchor = document.createElement('a');
     downloadAnchor.setAttribute("href", dataStr);
-    downloadAnchor.setAttribute("download", "mega_imperium_speicherstand.json");
+    downloadAnchor.setAttribute("download", "mega_imperium_supabase_save.json");
     document.body.appendChild(downloadAnchor);
     downloadAnchor.click();
     downloadAnchor.remove();
@@ -3078,7 +2826,7 @@ function startTermDeposit(hours) {
     }
     let amountToLock = Math.floor(state.bankMoney * 0.5);
     if (amountToLock <= 0) {
-        alert("Du zuerst Geld auf der Bank haben!");
+        alert("Du brauchst Geld auf der Bank!");
         return;
     }
     state.bankMoney -= amountToLock;
@@ -3428,14 +3176,6 @@ function renderCrypto() {
                     <button class="btn" style="background:var(--primary); color:#000; margin-top:0; flex:1;" onclick="buyCrypto(${i}, 1)">+1 Kaufen</button>
                     <button class="btn" style="background:var(--primary); color:#000; margin-top:0; flex:1;" onclick="buyCrypto(${i}, 10)">+10 Kaufen</button>
                 </div>
-                <div style="display:flex; gap:6px; margin-bottom:6px;">
-                    <button class="btn" style="background:var(--success); color:#000; margin-top:0; flex:1;" ${c.owned>0?'':'disabled'} onclick="stakeCrypto(${i}, 1)">Stake (+1)</button>
-                    <button class="btn" style="background:var(--accent); color:#fff; margin-top:0; flex:1;" ${c.staked>0?'':'disabled'} onclick="unstakeCrypto(${i}, 1)">Unstake (-1)</button>
-                </div>
-                <div style="display:flex; gap:6px;">
-                    <button class="btn" style="background:var(--danger); color:#fff; margin-top:0; flex:1;" ${c.owned>0?'':'disabled'} onclick="sellCrypto(${i}, 1)">Verkaufen (-1)</button>
-                    <button class="btn" style="background:var(--accent); color:#fff; margin-top:0; flex:1;" ${c.owned>0?'':'disabled'} onclick="sellAllCrypto(${i})">Alles Verkaufen</button>
-                </div>
             </div>`;
     });
 
@@ -3466,30 +3206,6 @@ function buyCrypto(i, amount) {
         c.owned += amount;
         c.spent = (c.spent || 0) + totalCost;
         updateTaskProgress("t2", 1); updateUI(); saveGame();
-    }
-}
-
-function sellCrypto(i, amount) {
-    let c = state.crypto[i];
-    let qty = Math.min(amount, c.owned);
-    if (qty > 0) {
-        let revenue = qty * c.price;
-        state.money += revenue;
-        let costReduction = (c.spent / (c.owned + (c.staked||0))) * qty;
-        c.owned -= qty;
-        c.spent = Math.max(0, c.spent - costReduction);
-        updateUI(); saveGame();
-    }
-}
-
-function sellAllCrypto(i) {
-    let c = state.crypto[i];
-    if (c.owned > 0) {
-        state.money += c.owned * c.price;
-        let costReduction = (c.spent / (c.owned + (c.staked||0))) * c.owned;
-        c.owned = 0;
-        c.spent = Math.max(0, c.spent - costReduction);
-        updateUI(); saveGame();
     }
 }
 
@@ -3595,8 +3311,10 @@ function updateUI() {
     let albumBadge = document.getElementById('album-badge-count');
     if (albumBadge && state.cardAlbum) albumBadge.innerText = state.cardAlbum.length;
 
-    let emailDisplay = document.getElementById('current-email-display');
-    if (emailDisplay) emailDisplay.innerText = state.playerEmail || (auth.currentUser ? auth.currentUser.email : "Gast");
+    supabaseClient.auth.getUser().then(({ data: { user } }) => {
+        let emailDisplay = document.getElementById('current-email-display');
+        if (emailDisplay) emailDisplay.innerText = state.playerEmail || (user ? user.email : "Gast");
+    });
 
     let avatarPreview = document.getElementById('current-avatar-preview');
     if (avatarPreview) avatarPreview.src = getActiveAvatarUrl();
@@ -3659,14 +3377,29 @@ function updateUI() {
     }
 }
 
-function saveGame() {
-    localStorage.setItem("imperium_local_temp_save", JSON.stringify(state));
+// Prüfen ob bereits eingeloggt bei Start
+supabaseClient.auth.getUser().then(async ({ data: { user } }) => {
+    if (user) {
+        state.userId = user.id;
+        state.playerEmail = user.email;
 
-    if (!auth.currentUser) return;
-    localStorage.setItem("imperium_ultimate_save_" + auth.currentUser.uid, JSON.stringify(state));
-    saveGameToCloud();
-    syncScoreToCloud();
-}
+        let { data: saveDoc } = await supabaseClient.from('game_saves').select('*').eq('user_id', user.id).single();
+        if (saveDoc && saveDoc.save_data) {
+            state = { ...createDefaultState(), ...saveDoc.save_data };
+            state.userId = user.id;
+            state.playerEmail = user.email;
+        }
+
+        document.getElementById('auth-overlay').classList.add('hidden');
+        document.getElementById('splash-overlay').classList.remove('hidden');
+        document.getElementById('splash-player-name').innerText = state.playerName || "Spieler";
+        document.getElementById('splash-money').innerText = formatNumber(state.money);
+
+        initCloudChatListener();
+        initCorpCloudListener();
+        updateUI();
+    }
+});
 
 setInterval(() => {
     state.crypto.forEach(c => {
@@ -3683,7 +3416,6 @@ setInterval(() => {
     saveGame();
 }, 3000);
 
-// --- 1-SEKUNDEN-TICKER (INKL. STÜNDLICHER AUSZAHLUNG) ---
 setInterval(() => {
     let now = Date.now();
 
