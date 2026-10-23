@@ -97,26 +97,29 @@ html, body {
 .splash-btn { width: 100%; max-width: 340px; background: linear-gradient(135deg,#ec4899,#8b5cf6); color: #fff; border: none; border-radius: 16px; padding: 16px; font-size: 15px; font-weight: 900; text-transform: uppercase; letter-spacing: 1px; box-shadow: 0 10px 25px rgba(236,72,153,0.4); cursor: pointer; transition: transform 0.1s; }
 .splash-btn:active { transform: scale(0.97); }
 
-/* Header */
+/* Header Kompakt & Übersichtlich */
 header {
     background-color: var(--surface);
-    padding: 12px 20px;
+    padding: 8px 12px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     border-bottom: 1px solid var(--border);
     z-index: 10;
     height: 60px;
+    gap: 4px;
 }
 .brand {
-    display: flex; align-items: center; gap: 10px; font-size: 1.2rem; font-weight: 900;
+    display: flex; align-items: center; gap: 8px; font-size: 1rem; font-weight: 900;
     background: linear-gradient(135deg,#c084fc,#fff); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
 }
-.header-badges { display: flex; gap: 8px; align-items: center; }
+.header-badges { display: flex; gap: 5px; align-items: center; }
 .badge {
     background: var(--card-dark); border: 1px solid var(--border); color: var(--text);
-    font-size: 11px; font-weight: 700; padding: 6px 12px; border-radius: 20px;
-    display: flex; align-items: center; gap: 5px;
+    font-size: 10px; font-weight: 700; padding: 5px 8px; border-radius: 20px;
+    display: flex; align-items: center; gap: 4px;
+    white-space: nowrap;
 }
 
 /* App Container */
@@ -296,6 +299,121 @@ header {
     color: #34d399;
 }
 
+/* POI SPEZIELL DESIGN NACH SCREENSHOT */
+.poi-card-custom {
+    background: linear-gradient(180deg, #120e2e 0%, #0a081a 100%);
+    border: 1px solid rgba(139, 92, 246, 0.3);
+    border-radius: 28px;
+    padding: 24px 18px 20px 18px;
+    margin-bottom: 24px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
+    position: relative;
+    text-align: center;
+}
+.poi-header-badge {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #8b5cf6, #c084fc);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: -48px auto 12px auto;
+    box-shadow: 0 0 25px rgba(139, 92, 246, 0.8);
+    font-size: 32px;
+    border: 3px solid #120e2e;
+}
+.poi-sub-label {
+    font-size: 12px;
+    color: #94a3b8;
+    font-weight: 600;
+    margin-bottom: 2px;
+}
+.poi-corp-title {
+    font-size: 22px;
+    font-weight: 900;
+    color: #ffffff;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+}
+.poi-stats-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 24px;
+}
+.poi-stat-box {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 12px 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-align: left;
+}
+.poi-stat-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+}
+.poi-stat-info-label {
+    font-size: 10px;
+    color: #94a3b8;
+    font-weight: 700;
+}
+.poi-stat-info-val {
+    font-size: 14px;
+    font-weight: 900;
+    color: #ffffff;
+    margin-top: 1px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.poi-upgrade-buttons-row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+    margin-top: 10px;
+}
+.poi-up-btn {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    border: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 18px;
+    cursor: pointer;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+    transition: transform 0.15s ease;
+}
+.poi-up-btn:active {
+    transform: scale(0.92);
+}
+.poi-up-btn.btn-lvl1 {
+    background: linear-gradient(135deg, #38bdf8, #0284c7);
+}
+.poi-up-btn.btn-lvl10 {
+    background: linear-gradient(135deg, #a855f7, #6b21a8);
+}
+.poi-up-btn.btn-lvl100 {
+    background: linear-gradient(135deg, #ec4899, #be185d);
+}
+
 /* Modals */
 #card-choice-modal, #building-modal, #avatar-modal {
     position: fixed; top: 0; left: 0; right: 0; bottom: 0;
@@ -369,13 +487,8 @@ header {
     font-weight: 500;
 }
 
-/* Badges für Admin & Moderator im Chat */
-.badge-admin {
-    background-color: #ef4444; color: white; padding: 2px 6px; border-radius: 6px; font-size: 9px; font-weight: 900; letter-spacing: 0.5px;
-}
-.badge-mod {
-    background-color: #3b82f6; color: white; padding: 2px 6px; border-radius: 6px; font-size: 9px; font-weight: 900; letter-spacing: 0.5px;
-}
+.badge-admin { background-color: #ef4444; color: white; padding: 2px 6px; border-radius: 6px; font-size: 9px; font-weight: 900; letter-spacing: 0.5px; }
+.badge-mod { background-color: #3b82f6; color: white; padding: 2px 6px; border-radius: 6px; font-size: 9px; font-weight: 900; letter-spacing: 0.5px; }
 
 /* Cards & UI Styles */
 .tycoon-card, .card {
@@ -497,15 +610,15 @@ select:focus { border-color: var(--primary); }
 
 <!-- HEADER -->
 <header>
-<div style="display:flex; align-items:center; gap:12px;">
-<button class="sidebar-toggle" onclick="toggleSidebar()"><i class="fa-solid fa-bars"></i></button>
-<div class="brand"><i class="fa-solid fa-earth-americas"></i> Mega Imperium</div>
-</div>
-<div class="header-badges">
-<div class="badge" style="border-color:rgba(245,158,11,0.3); color:var(--warning);">🏆 <span id="display-trophies">0</span></div>
-<div class="badge" style="border-color:rgba(0,210,255,0.3); color:var(--primary);">Lvl <span id="display-player-level">1</span></div>
-<div class="badge" style="border-color:rgba(121,40,202,0.3); color:#c084fc; cursor:pointer;" onclick="switchTab('diamonds', document.querySelectorAll('.nav-item')[8])">💎 <span id="display-diamonds">0</span></div>
-</div>
+    <div style="display:flex; align-items:center; gap:8px; min-width: 0;">
+        <button class="sidebar-toggle" onclick="toggleSidebar()"><i class="fa-solid fa-bars"></i></button>
+        <div class="brand"><i class="fa-solid fa-earth-americas"></i> Mega Imperium</div>
+    </div>
+    <div class="header-badges">
+        <div class="badge" style="border-color:rgba(245,158,11,0.3); color:var(--warning);" title="Korporations-Pokale">🏆 <span id="display-corp-trophies">0</span></div>
+        <div class="badge" style="border-color:rgba(0,210,255,0.3); color:var(--primary);">Lvl <span id="display-player-level">1</span></div>
+        <div class="badge" style="border-color:rgba(121,40,202,0.3); color:#c084fc; cursor:pointer;" onclick="switchTab('diamonds', document.querySelectorAll('.nav-item')[10])">💎 <span id="display-diamonds">0</span></div>
+    </div>
 </header>
 
 <!-- APP CONTAINER -->
@@ -517,10 +630,10 @@ select:focus { border-color: var(--primary); }
             <div class="nav-item active" onclick="switchTab('shop', this)"><span class="nav-icon"><i class="fa-solid fa-earth-americas"></i></span><span>Weltkarte & Stadt</span></div>
             <div class="nav-item" onclick="switchTab('chat', this)"><span class="nav-icon"><i class="fa-solid fa-comments"></i></span><span>💬 Globale Lobby</span></div>
             <div class="nav-item" onclick="switchTab('album', this)"><span class="nav-icon"><i class="fa-solid fa-book-open"></i></span><span>Sammelalbum (<span id="album-badge-count">0</span>/50)</span></div>
-            <div class="nav-item" onclick="switchTab('blackmarket', this)"><span class="nav-icon"><i class="fa-solid fa-gem"></i></span><span>💎 Diamanten-Schwarzmarkt</span></div>
+            <div class="nav-item" onclick="switchTab('blackmarket', this)"><span class="nav-icon"><i class="fa-solid fa-gem"></i></span><span>💎 Schwarzmarkt</span></div>
             <div class="nav-item" onclick="switchTab('seasonpass', this)"><span class="nav-icon"><i class="fa-solid fa-ticket"></i></span><span>Saison-Pass 🌟</span></div>
             <div class="nav-item" onclick="switchTab('buildings', this)"><span class="nav-icon"><i class="fa-solid fa-city"></i></span><span>Gebäude-Verwaltung</span></div>
-            <div class="nav-item" onclick="switchTab('pois', this)"><span class="nav-icon"><i class="fa-solid fa-tower-observation"></i></span><span>POI-Türme</span></div>
+            <div class="nav-item" onclick="switchTab('pois', this)"><span class="nav-icon"><i class="fa-solid fa-building-flag"></i></span><span>🏢 Korporation & POIs</span></div>
             <div class="nav-item" onclick="switchTab('bank', this)"><span class="nav-icon"><i class="fa-solid fa-landmark"></i></span><span>Zentralbank</span></div>
             <div class="nav-item" onclick="switchTab('crypto', this)"><span class="nav-icon"><i class="fa-solid fa-chart-line"></i></span><span>Krypto & Mining</span></div>
             <div class="nav-item" onclick="switchTab('leaderboard', this)"><span class="nav-icon"><i class="fa-solid fa-trophy"></i></span><span>Rang & Profil</span></div>
@@ -544,7 +657,6 @@ select:focus { border-color: var(--primary); }
                 <div style="font-size:10px; color:var(--warning); margin-top:2px;">🏆 Monats-Reset am 1.: <b id="display-season-timer">--T --H</b></div>
             </div>
 
-            <!-- Interaktive Globale Weltkarte -->
             <div class="world-map-card">
                 <div class="map-location-banner">
                     <div style="display:flex; align-items:center;">
@@ -719,16 +831,34 @@ select:focus { border-color: var(--primary); }
             <div id="shop-container"></div>
         </div>
 
-        <!-- VIEW: POIS & TÜRME -->
+        <!-- VIEW: KORPORATIONEN & POIS -->
         <div id="view-pois" class="view-container">
-            <div class="card" style="border-color:rgba(245,158,11,0.3); margin-bottom:14px;">
-                <h2 style="color:var(--warning); margin:0 0 6px 0; font-size:16px;">🗼 Monatliche POI-Türme (Max 62)</h2>
-                <p style="font-size:12px; color:var(--text-muted); margin:0 0 12px 0;">Jeden Tag kommen 2 neue POIs hinzu. Investiere Geld, um sie freizuschalten oder im Level zu steigern!</p>
-                <button class="btn" id="btn-claim-pois" style="background:var(--warning); color:#000; margin-top:0;" onclick="claimDailyPois()">🎁 Heute +2 POIs freischalten (<span id="poi-claim-status">Verfügbar</span>)</button>
+            <div class="card" style="border-color:rgba(139,92,246,0.4); margin-bottom:14px; background:linear-gradient(135deg, rgba(30,27,75,0.9), rgba(121,40,202,0.3));">
+                <div class="tycoon-header">
+                    <h2 style="color:#c084fc; margin:0; font-size:18px;"><i class="fa-solid fa-building-flag"></i> Korporationen (Max 5 Mitglieder)</h2>
+                    <span class="tycoon-tag" style="color:#c084fc; border-color:rgba(139,92,246,0.4); background:rgba(139,92,246,0.15);" id="corp-header-tag">Keine Korporation</span>
+                </div>
+                <p style="font-size:12px; color:var(--text-muted); margin:0 0 14px 0;">Gründe deine eigene Korporation für 50 💎 oder tritt einem bestehenden Team bei. Levelt gemeinsam die globalen POIs in der Cloud!</p>
+
+                <!-- KORPORATION DASHBOARD / BEITRITT SYSTEM -->
+                <div id="corp-dashboard-box"></div>
             </div>
 
+            <!-- KORPORATIONS BESTENLISTE -->
+            <div class="card" style="border-color:rgba(245,158,11,0.3); margin-bottom:14px;">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+                    <h3 style="margin:0; color:var(--warning); font-size:15px;">🏆 Korporations-Bestenliste</h3>
+                    <button onclick="fetchCorpLeaderboard()" style="background:rgba(245,158,11,0.2); border:1px solid rgba(245,158,11,0.4); color:var(--warning); border-radius:10px; padding:6px 12px; font-size:11px; font-weight:800; cursor:pointer;">🔄 Aktualisieren</button>
+                </div>
+                <div id="corp-leaderboard-list" style="color:var(--text-muted); font-size:12px;">Klicke auf "Aktualisieren", um die Korporations-Rangliste zu laden.</div>
+            </div>
+
+            <!-- TEAM POI TÜRME -->
             <div class="card">
-                <h3 style="margin:0 0 12px 0; color:var(--primary); font-size:15px;">🗼 Freigeschaltete POIs (Max. Stufe 1.000)</h3>
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+                    <h3 style="margin:0; color:var(--primary); font-size:15px;">🗼 Korporations-POIs (Team-Ebenen)</h3>
+                    <button class="btn" id="btn-claim-pois" style="background:var(--warning); color:#000; width:auto; padding:6px 12px; font-size:11px; margin:0;" onclick="claimDailyPois()">🎁 Heute +2 POIs freischalten (<span id="poi-claim-status">Verfügbar</span>)</button>
+                </div>
                 <div id="pois-container"></div>
             </div>
         </div>
@@ -869,7 +999,7 @@ select:focus { border-color: var(--primary); }
 
             <div class="card">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-                    <h3 style="margin:0; color:var(--warning); font-size:15px;">🏆 Globale Live-Bestenliste</h3>
+                    <h3 style="margin:0; color:var(--warning); font-size:15px;">🏆 Einzelspieler-Bestenliste</h3>
                     <button onclick="fetchOnlineLeaderboard()" style="background:rgba(245,158,11,0.2); border:1px solid rgba(245,158,11,0.4); color:var(--warning); border-radius:10px; padding:6px 12px; font-size:11px; font-weight:800; cursor:pointer;">🔄 Aktualisieren</button>
                 </div>
                 <div id="leaderboard-list" style="color:var(--text-muted); font-size:12px;">Klicke auf "Aktualisieren", um die Rangliste zu laden.</div>
@@ -991,7 +1121,6 @@ firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 const db = firebase.firestore();
 
-// Kein automatisches Dauer-Login im Browser
 auth.setPersistence(firebase.auth.Auth.Persistence.NONE);
 
 // Avatare
@@ -1014,6 +1143,9 @@ const AVATAR_LIST = [
     "https://api.dicebear.com/7.x/bottts/svg?seed=Master"
 ];
 
+// Korporations-Symbole
+const CORP_ICONS = ["🚀", "👑", "🛡️", "⚔️", "🦁", "🐉", "💎", "⚡", "🏰", "🌌", "🦅", "🔥"];
+
 let deferredPrompt;
 window.addEventListener('beforeinstallprompt', (e) => {
     e.preventDefault();
@@ -1033,6 +1165,8 @@ let leafletMap = null;
 let mapMarkers = [];
 let tempSelectedAvatarIndex = 0;
 let chatUnsubscribe = null;
+let corpListenerUnsubscribe = null;
+let currentCorpData = null;
 
 function initLeafletMap() {
     let container = document.getElementById('leaflet-map-container');
@@ -1167,9 +1301,7 @@ function renderLeafletMarkers() {
 
 // --- ECHTER ECHTZEIT-CHAT ÜBER FIREBASE ---
 async function initCloudChatListener() {
-    if (chatUnsubscribe) {
-        chatUnsubscribe();
-    }
+    if (chatUnsubscribe) chatUnsubscribe();
 
     let box = document.getElementById('chat-box');
     if (!box) return;
@@ -1256,16 +1388,11 @@ function sendChatMessage() {
     };
 
     db.collection("globalChat").add(chatMessageData)
-        .then(() => {
-            input.value = "";
-        })
-        .catch((error) => {
-            console.error("Fehler beim Senden der Nachricht: ", error);
-            alert("Nachricht konnte nicht gesendet werden.");
-        });
+        .then(() => { input.value = ""; })
+        .catch((error) => { alert("Nachricht konnte nicht gesendet werden."); });
 }
 
-// --- CLOUD-SYNC (LOKALER SPEICHER BLEIBT ERHALTEN FALLS NEUER ACCOUNT) ---
+// --- CLOUD-SYNC LOGIK ---
 async function manualCloudSync() {
     if (!auth.currentUser) {
         alert("Du musst eingeloggt sein, um mit der Cloud zu synchronisieren!");
@@ -1292,13 +1419,6 @@ async function manualCloudSync() {
                             return saved ? { ...def, count: saved.count||0, level: saved.level||1, diamondLevel: saved.diamondLevel||0, empHired: saved.empHired||false } : def;
                         });
                     }
-                    if (cloudData.crypto) {
-                        merged.crypto = defaultState.crypto.map(defC => {
-                            let savedC = cloudData.crypto.find(x => x.id === defC.id);
-                            return savedC ? { ...defC, owned: savedC.owned||0, spent: savedC.spent||0, staked: savedC.staked||0, minerCount: savedC.minerCount||0, minerLevel: savedC.minerLevel||1, price: savedC.price||defC.price, change: savedC.change||"0.0" } : defC;
-                        });
-                    }
-
                     state = merged;
                     state.userId = auth.currentUser.uid;
                     state.playerEmail = auth.currentUser.email;
@@ -1310,9 +1430,7 @@ async function manualCloudSync() {
         });
 
         alert("☁️ Erfolgreich mit der Cloud synchronisiert!");
-
     } catch (error) {
-        console.error("Fehler bei Cloud-Sync:", error);
         alert("Fehler bei der Cloud-Synchronisation!");
     } finally {
         if (syncBtn) {
@@ -1320,6 +1438,471 @@ async function manualCloudSync() {
             syncBtn.disabled = false;
         }
     }
+}
+
+// --- KORPORATIONS SYSTEM (ECHTZEIT CLOUD) ---
+function initCorpCloudListener() {
+    if (corpListenerUnsubscribe) corpListenerUnsubscribe();
+    let corpTag = document.getElementById('corp-header-tag');
+
+    if (!state.corpId) {
+        currentCorpData = null;
+        if (corpTag) {
+            corpTag.innerText = "Keine Korporation";
+            corpTag.style.color = "var(--text-muted)";
+        }
+        renderCorpDashboard();
+        return;
+    }
+
+    corpListenerUnsubscribe = db.collection("corporations").doc(state.corpId)
+        .onSnapshot((doc) => {
+            if (doc.exists) {
+                currentCorpData = doc.data();
+                if (corpTag) {
+                    let icon = currentCorpData.icon || "🏢";
+                    corpTag.innerText = `${icon} ${currentCorpData.name}`;
+                    corpTag.style.color = "#c084fc";
+                }
+                renderCorpDashboard();
+                renderPois();
+            } else {
+                state.corpId = "";
+                currentCorpData = null;
+                if (corpTag) {
+                    corpTag.innerText = "Keine Korporation";
+                    corpTag.style.color = "var(--text-muted)";
+                }
+                saveGame();
+                renderCorpDashboard();
+                renderPois();
+            }
+        });
+}
+
+function createCorporation() {
+    if (state.diamonds < 50) {
+        alert("Du benötigst 50 💎, um eine Korporation zu gründen!");
+        return;
+    }
+    let corpName = prompt("Gib deiner neuen Korporation einen Namen:");
+    if (!corpName || !corpName.trim()) return;
+    corpName = corpName.trim();
+
+    state.diamonds -= 50;
+
+    let initialPois = generateAllMonthlyPois();
+    let corpId = "corp_" + Date.now() + "_" + Math.floor(Math.random()*1000);
+
+    let newCorp = {
+        id: corpId,
+        name: corpName,
+        icon: "🚀",
+        leaderId: auth.currentUser.uid,
+        leaderName: state.playerName || "Leader",
+        members: [{ uid: auth.currentUser.uid, name: state.playerName || "Leader" }],
+        pois: initialPois,
+        created: Date.now()
+    };
+
+    db.collection("corporations").doc(corpId).set(newCorp)
+        .then(() => {
+            state.corpId = corpId;
+            saveGame();
+            initCorpCloudListener();
+            alert(`🎉 Korporation "${corpName}" erfolgreich gegründet!`);
+        })
+        .catch(err => {
+            alert("Fehler beim Erstellen der Korporation.");
+        });
+}
+
+function changeCorpIcon(iconSymbol) {
+    if (!state.corpId || !currentCorpData) return;
+    if (currentCorpData.leaderId !== auth.currentUser.uid) {
+        alert("Nur der Anführer kann das Symbol der Korporation ändern!");
+        return;
+    }
+
+    db.collection("corporations").doc(state.corpId).update({
+        icon: iconSymbol
+    }).then(() => {
+        alert(`Symbol zu ${iconSymbol} geändert!`);
+    });
+}
+
+function joinCorporation(corpId, corpName) {
+    if (state.corpId) {
+        alert("Du bist bereits in einer Korporation!");
+        return;
+    }
+
+    db.collection("corporations").doc(corpId).get().then(doc => {
+        if (!doc.exists) {
+            alert("Korporation existiert nicht mehr.");
+            return;
+        }
+        let data = doc.data();
+        if (data.members.length >= 5) {
+            alert("Diese Korporation ist voll! (Max. 5 Mitglieder)");
+            return;
+        }
+
+        data.members.push({ uid: auth.currentUser.uid, name: state.playerName || "Mitglied" });
+
+        db.collection("corporations").doc(corpId).update({
+            members: data.members
+        }).then(() => {
+            state.corpId = corpId;
+            saveGame();
+            initCorpCloudListener();
+            alert(`Willkommen bei "${corpName}"!`);
+        });
+    });
+}
+
+function leaveCorporation() {
+    if (!state.corpId || !currentCorpData) return;
+    if (!confirm("Möchtest du diese Korporation wirklich verlassen?")) return;
+
+    let isLeader = currentCorpData.leaderId === auth.currentUser.uid;
+
+    if (isLeader || currentCorpData.members.length <= 1) {
+        db.collection("corporations").doc(state.corpId).delete().then(() => {
+            state.corpId = "";
+            currentCorpData = null;
+            saveGame();
+            initCorpCloudListener();
+            alert("Korporation aufgelöst!");
+        });
+    } else {
+        let updatedMembers = currentCorpData.members.filter(m => m.uid !== auth.currentUser.uid);
+        db.collection("corporations").doc(state.corpId).update({
+            members: updatedMembers
+        }).then(() => {
+            state.corpId = "";
+            currentCorpData = null;
+            saveGame();
+            initCorpCloudListener();
+            alert("Korporation verlassen.");
+        });
+    }
+}
+
+function getCorpTotalIncome() {
+    if (!currentCorpData || !currentCorpData.pois) return 0;
+    let seasonMult = isSeasonPassActive() ? 1.5 : 1.0;
+    return Math.floor(currentCorpData.pois.reduce((acc, p) => acc + (p.baseIncome * (p.level || 0) * seasonMult), 0));
+}
+
+function renderCorpDashboard() {
+    let box = document.getElementById('corp-dashboard-box');
+    if (!box) return;
+
+    if (!state.corpId || !currentCorpData) {
+        box.innerHTML = `
+            <div style="background:var(--surface-glass); padding:16px; border-radius:16px; border:1px solid var(--border); text-align:center;">
+                <div style="font-size:14px; font-weight:800; color:#fff; margin-bottom:6px;">Du bist aktuell in keiner Korporation</div>
+                <div style="font-size:11px; color:var(--text-muted); margin-bottom:14px;">Gründe für 50 💎 dein eigenes Team oder tritt einer offenen Korporation bei!</div>
+                <button class="btn" style="background:linear-gradient(135deg, #ec4899, #8b5cf6); color:#fff; font-size:14px;" onclick="createCorporation()">
+                    🏢 Neue Korporation gründen (50 💎)
+                </button>
+                <hr style="border:0; border-top:1px solid var(--border); margin:16px 0;">
+                <div style="font-size:12px; font-weight:800; color:var(--primary); margin-bottom:8px;">Offene Korporationen Suchen</div>
+                <div id="open-corps-list" style="font-size:11px; color:var(--text-muted);">Lade verfügbare Teams...</div>
+            </div>`;
+        fetchOpenCorporations();
+    } else {
+        let corpTrophies = getCorpTotalTrophies();
+        let corpIncome = getCorpTotalIncome();
+        let isLeader = currentCorpData.leaderId === auth.currentUser.uid;
+        let corpIcon = currentCorpData.icon || "🚀";
+
+        let memberListHtml = currentCorpData.members.map(m => `
+            <div style="background:var(--card-dark); border:1px solid var(--border); padding:8px 12px; border-radius:10px; display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+                <span style="font-size:12px; font-weight:800; color:#fff;">👤 ${m.name}</span>
+                <span style="font-size:10px; color:${m.uid===currentCorpData.leaderId?'var(--warning)':'var(--primary)'}; font-weight:800;">${m.uid===currentCorpData.leaderId?'Anführer':'Mitglied'}</span>
+            </div>`).join('');
+
+        let iconSelectorHtml = "";
+        if (isLeader) {
+            let iconsHtml = CORP_ICONS.map(ic => `
+                <button onclick="changeCorpIcon('${ic}')" style="background:${ic===corpIcon?'var(--accent)':'var(--card-dark)'}; border:1px solid var(--border); font-size:18px; padding:6px; border-radius:10px; cursor:pointer;">${ic}</button>
+            `).join('');
+            iconSelectorHtml = `
+                <div style="margin-top:12px; background:var(--card-dark); border:1px solid var(--border); padding:10px; border-radius:12px;">
+                    <div style="font-size:10px; color:var(--text-muted); font-weight:800; margin-bottom:6px;">ANFÜHRER: TEAM-SYMBOL WÄHLEN</div>
+                    <div style="display:flex; gap:6px; flex-wrap:wrap; justify-content:center;">${iconsHtml}</div>
+                </div>`;
+        }
+
+        box.innerHTML = `
+            <div style="background:var(--surface-glass); padding:16px; border-radius:16px; border:1px solid var(--border);">
+                <!-- ZUSAMMENFASSUNGS-BOARD -->
+                <div style="background: linear-gradient(135deg, rgba(139,92,246,0.25), rgba(56,189,248,0.15)); border: 1px solid var(--accent); border-radius: 14px; padding: 12px 14px; margin-bottom: 14px; display: flex; justify-content: space-around; align-items: center; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.3);">
+                    <div>
+                        <div style="font-size: 10px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px;">Gesamt-POIs Ertrag</div>
+                        <div style="font-size: 16px; font-weight: 900; color: var(--success); margin-top: 2px;">+${formatNumber(corpIncome)} / Std.</div>
+                    </div>
+                    <div style="width: 1px; height: 30px; background: var(--border);"></div>
+                    <div>
+                        <div style="font-size: 10px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px;">Gesamte Pokale</div>
+                        <div style="font-size: 16px; font-weight: 900; color: var(--warning); margin-top: 2px;">🏆 ${corpTrophies.toLocaleString()}</div>
+                    </div>
+                </div>
+
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+                    <div>
+                        <div style="font-size:18px; font-weight:900; color:#c084fc;">${corpIcon} ${currentCorpData.name}</div>
+                        <div style="font-size:11px; color:var(--text-muted);">Anführer: ${currentCorpData.leaderName}</div>
+                    </div>
+                    <div style="text-align:right;">
+                        <div style="font-size:11px; color:var(--primary); font-weight:800;">👥 ${currentCorpData.members.length} / 5 Mitglieder</div>
+                    </div>
+                </div>
+
+                ${iconSelectorHtml}
+
+                <div style="margin-top:12px; margin-bottom:12px;">
+                    <div style="font-size:11px; font-weight:800; color:var(--text-muted); margin-bottom:6px;">TEAM MITGLIEDER:</div>
+                    ${memberListHtml}
+                </div>
+                <button class="btn" style="background:var(--danger); color:#fff; font-size:12px; padding:8px; margin-top:4px;" onclick="leaveCorporation()">
+                    🚪 Korporation verlassen / Auflösen
+                </button>
+            </div>`;
+    }
+}
+
+function fetchOpenCorporations() {
+    let listEl = document.getElementById('open-corps-list');
+    if (!listEl) return;
+
+    db.collection("corporations").limit(10).get().then(snapshot => {
+        let corps = [];
+        snapshot.forEach(doc => corps.push(doc.data()));
+
+        if (corps.length === 0) {
+            listEl.innerText = "Aktuell gibt es noch keine Korporationen. Sei der Erste!";
+            return;
+        }
+
+        listEl.innerHTML = corps.map(c => {
+            let canJoin = c.members.length < 5;
+            let trophies = c.pois ? Math.floor(c.pois.reduce((acc, p) => acc + (p.level || 0), 0) / 10) : 0;
+            let icon = c.icon || "🏢";
+            return `
+                <div style="background:var(--card-dark); border:1px solid var(--border); padding:10px 12px; border-radius:12px; display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+                    <div>
+                        <div style="font-size:13px; font-weight:900; color:#fff;">${icon} ${c.name}</div>
+                        <div style="font-size:10px; color:var(--text-muted);">Anführer: ${c.leaderName} | 👥 ${c.members.length}/5 | 🏆 ${trophies.toLocaleString()} Pokale</div>
+                    </div>
+                    <button class="btn" style="background:var(--success); color:#000; width:auto; padding:6px 14px; font-size:11px; margin:0;" ${canJoin?'':'disabled'} onclick="joinCorporation('${c.id}', '${c.name}')">
+                        ${canJoin ? 'Beitreten' : 'Voll'}
+                    </button>
+                </div>`;
+        }).join('');
+    });
+}
+
+function fetchCorpLeaderboard() {
+    let box = document.getElementById('corp-leaderboard-list');
+    if (!box) return;
+    box.innerHTML = "<div style='color:var(--text-muted); font-size:12px;'>Lade Korporations-Rangliste aus der Cloud...</div>";
+
+    db.collection("corporations").get().then(snapshot => {
+        let corps = [];
+        snapshot.forEach(doc => {
+            let d = doc.data();
+            let trophies = d.pois ? Math.floor(d.pois.reduce((acc, p) => acc + (p.level || 0), 0) / 10) : 0;
+            corps.push({ name: d.name, icon: d.icon || "🏢", leader: d.leaderName, members: d.members.length, trophies: trophies, id: d.id });
+        });
+
+        corps.sort((a, b) => b.trophies - a.trophies);
+
+        box.innerHTML = "";
+        if (corps.length === 0) {
+            box.innerHTML = "<div style='color:var(--text-muted); text-align:center;'>Noch keine Korporationen gegründet.</div>";
+            return;
+        }
+
+        corps.forEach((c, idx) => {
+            let rankColor = idx === 0 ? "var(--warning)" : idx === 1 ? "#cbd5e1" : idx === 2 ? "#b45309" : "var(--text-muted)";
+            let isOwn = c.id === state.corpId;
+
+            box.innerHTML += `
+                <div style="background:var(--surface-glass); padding:10px 12px; border-radius:12px; margin-bottom:6px; display:flex; justify-content:space-between; align-items:center; border:1px solid ${isOwn?'var(--warning)':'var(--border)'};">
+                    <div style="display:flex; gap:10px; align-items:center;">
+                        <span style="font-weight:900; color:${rankColor}; width:20px;">#${idx+1}</span>
+                        <div>
+                            <div style="font-weight:800; font-size:13px; color:${isOwn?'var(--warning)':'#fff'};">${c.icon} ${c.name} ${isOwn?'(Dein Team)':''}</div>
+                            <div style="font-size:9px; color:var(--text-muted);">Anführer: ${c.leader} | 👥 ${c.members}/5 Mitglieder</div>
+                        </div>
+                    </div>
+                    <div style="font-weight:800; font-size:13px; color:var(--warning);">🏆 ${c.trophies.toLocaleString()} Pokale</div>
+                </div>`;
+        });
+    });
+}
+
+function getCorpTotalTrophies() {
+    if (!currentCorpData || !currentCorpData.pois) return 0;
+    let totalLevels = currentCorpData.pois.reduce((acc, p) => acc + (p.level || 0), 0);
+    return Math.floor(totalLevels / 10);
+}
+
+function renderPois() {
+    let box = document.getElementById('pois-container');
+    if (!box) return;
+    box.innerHTML = "";
+
+    if (!state.corpId || !currentCorpData) {
+        box.innerHTML = `<div style="text-align:center; color:var(--text-muted); font-size:12px; padding:30px; background:var(--surface-glass); border-radius:16px; border:1px solid var(--border);">
+            Tritt einer Korporation bei oder gründe eine für 50 💎, um Zugriff auf die gemeinsamen POI-Türme deines Teams zu erhalten!
+        </div>`;
+        return;
+    }
+
+    let today = getTodayString();
+    let claimBtn = document.getElementById('btn-claim-pois');
+    let claimStatus = document.getElementById('poi-claim-status');
+    if (claimBtn) {
+        if (state.lastPoiClaimDate === today) {
+            claimBtn.disabled = true;
+            if (claimStatus) claimStatus.innerText = "Bereits abgeholt";
+        } else {
+            claimBtn.disabled = false;
+            if (claimStatus) claimStatus.innerText = "Verfügbar (+2 POIs)";
+        }
+    }
+
+    let unlockedLimit = getMaxUnlockedPoiCount();
+    let poisList = currentCorpData.pois || generateAllMonthlyPois();
+    let corpIcon = currentCorpData.icon || "🚀";
+
+    for (let i = 0; i < poisList.length; i++) {
+        let poi = poisList[i];
+        let isUnlocked = i < unlockedLimit;
+
+        if (!isUnlocked) {
+            box.innerHTML += `
+                <div class="poi-card-custom" style="opacity:0.35; filter:grayscale(1);">
+                    <div class="poi-header-badge">${corpIcon}</div>
+                    <div class="poi-sub-label">Gesperrt</div>
+                    <div class="poi-corp-title">${poi.name}</div>
+                    <div style="font-size:11px; color:var(--text-muted); margin-bottom:10px;">Freischaltung ab Tag ${Math.floor(i/2) + 1}</div>
+                </div>`;
+        } else {
+            let seasonMult = isSeasonPassActive() ? 1.5 : 1.0;
+            let currentIncome = Math.floor(poi.baseIncome * poi.level * seasonMult);
+            let trophiesFromPoi = Math.floor(poi.level / 10);
+            let isMax = poi.level >= 100000;
+            let cost1 = getPoiMultiCost(poi.level, 1);
+            let cost10 = getPoiMultiCost(poi.level, 10);
+            let cost100 = getPoiMultiCost(poi.level, 100);
+
+            box.innerHTML += `
+                <div class="poi-card-custom">
+                    <div class="poi-header-badge">${corpIcon}</div>
+                    <div class="poi-sub-label">Kontrolliert von Ihrer Korporation:</div>
+                    <div class="poi-corp-title">${currentCorpData.name}</div>
+
+                    <div class="poi-stats-grid">
+                        <div class="poi-stat-box">
+                            <div class="poi-stat-icon">📈</div>
+                            <div>
+                                <div class="poi-stat-info-label">Ebene</div>
+                                <div class="poi-stat-info-val">${poi.level.toLocaleString('de-DE')}</div>
+                            </div>
+                        </div>
+                        <div class="poi-stat-box">
+                            <div class="poi-stat-icon">📈</div>
+                            <div>
+                                <div class="poi-stat-info-label">Limit</div>
+                                <div class="poi-stat-info-val">100 000</div>
+                            </div>
+                        </div>
+                        <div class="poi-stat-box">
+                            <div class="poi-stat-icon">🏆</div>
+                            <div>
+                                <div class="poi-stat-info-label">Trophäen</div>
+                                <div class="poi-stat-info-val">${trophiesFromPoi.toLocaleString('de-DE')}</div>
+                            </div>
+                        </div>
+                        <div class="poi-stat-box">
+                            <div class="poi-stat-icon">🪙</div>
+                            <div>
+                                <div class="poi-stat-info-label">Neocoins</div>
+                                <div class="poi-stat-info-val" style="color:#34d399;">${formatNumber(currentIncome)}/Stunde</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="poi-upgrade-buttons-row">
+                        <button class="poi-up-btn btn-lvl1" ${isMax?'disabled':''} onclick="upgradeCorpPoiMultiple(${i}, 1)" title="1 Ebene kaufen (+${formatNumber(cost1)})">
+                            <i class="fa-solid fa-house"></i>
+                            <span style="font-size:9px; font-weight:800; margin-top:2px;">+1</span>
+                        </button>
+                        <button class="poi-up-btn btn-lvl10" ${isMax?'disabled':''} onclick="upgradeCorpPoiMultiple(${i}, 10)" title="10 Ebenen kaufen (+${formatNumber(cost10)})">
+                            <i class="fa-solid fa-house"></i>
+                            <span style="font-size:9px; font-weight:800; margin-top:2px;">+10</span>
+                        </button>
+                        <button class="poi-up-btn btn-lvl100" ${isMax?'disabled':''} onclick="upgradeCorpPoiMultiple(${i}, 100)" title="100 Ebenen kaufen (+${formatNumber(cost100)})">
+                            <i class="fa-solid fa-house"></i>
+                            <span style="font-size:9px; font-weight:800; margin-top:2px;">+100</span>
+                        </button>
+                    </div>
+                </div>`;
+        }
+    }
+}
+
+function upgradeCorpPoiMultiple(i, count) {
+    if (!state.corpId || !currentCorpData) return;
+    let poi = currentCorpData.pois[i];
+    if (poi.level >= 100000) return;
+
+    let targetLevel = Math.min(100000, poi.level + count);
+    let actualCount = targetLevel - poi.level;
+    let totalCost = getPoiMultiCost(poi.level, actualCount);
+
+    if (state.money >= totalCost) {
+        state.money -= totalCost;
+        poi.level = targetLevel;
+
+        db.collection("corporations").doc(state.corpId).update({
+            pois: currentCorpData.pois
+        }).then(() => {
+            updateUI();
+            saveGame();
+        });
+    } else {
+        alert(`Nicht genügend Bargeld! Du benötigst ${formatNumber(totalCost)}.`);
+    }
+}
+
+function claimDailyPois() {
+    let today = getTodayString();
+    if (state.lastPoiClaimDate === today) {
+        alert("Du hast deine heutigen 2 POI-Türme bereits abgeholt!");
+        return;
+    }
+    state.lastPoiClaimDate = today;
+
+    if (state.corpId && currentCorpData) {
+        let unlockedCount = getMaxUnlockedPoiCount();
+        let idx2 = unlockedCount - 1;
+        let idx1 = unlockedCount - 2;
+
+        if (idx1 >= 0 && currentCorpData.pois[idx1]) currentCorpData.pois[idx1].level = Math.min(100000, (currentCorpData.pois[idx1].level || 0) + 1);
+        if (idx2 >= 0 && currentCorpData.pois[idx2]) currentCorpData.pois[idx2].level = Math.min(100000, (currentCorpData.pois[idx2].level || 0) + 1);
+
+        db.collection("corporations").doc(state.corpId).update({
+            pois: currentCorpData.pois
+        });
+    }
+
+    updateUI(); saveGame();
 }
 
 function buyOrToggleAutoCollector() {
@@ -1394,9 +1977,7 @@ function buyBlackMarketItem(type, cost) {
         }
     }
 
-    updateUI();
-    saveGame();
-    syncScoreToCloud();
+    updateUI(); saveGame(); syncScoreToCloud();
 }
 
 function openBuildingModal(index) {
@@ -1714,7 +2295,6 @@ function handleLogin() {
     btnAction.innerText = "Lade Spielstand...";
     btnAction.disabled = true;
 
-    // Speichere den aktuellen lokalen Spielstand vor dem Einloggen
     let localSaveRaw = localStorage.getItem("imperium_local_temp_save");
 
     auth.signInWithEmailAndPassword(email, pass)
@@ -1723,19 +2303,14 @@ function handleLogin() {
         state.userId = uid;
         state.playerEmail = userCredential.user.email;
 
-        // Spielstand aus der Cloud laden
         loadGameFromCloud((cloudData) => {
             let defaultState = createDefaultState();
             
             if (cloudData && typeof cloudData === 'object' && cloudData.money !== undefined) {
-                // Cloud-Spielstand existiert -> Verwende diesen
                 state = { ...defaultState, ...cloudData };
             } else {
-                // Neuer Account oder keine Daten in Cloud -> Übernehme vorhandenen Spielstand vom Handy!
                 let localSave = null;
-                try {
-                    localSave = JSON.parse(localSaveRaw);
-                } catch(e){}
+                try { localSave = JSON.parse(localSaveRaw); } catch(e){}
 
                 if (localSave && typeof localSave === 'object') {
                     state = { ...defaultState, ...localSave };
@@ -1753,12 +2328,13 @@ function handleLogin() {
             if (splashMoney) splashMoney.innerText = formatNumber(state.money);
 
             updateUI();
-            saveGame(); // Speichert direkt ab, damit der lokalen Stand synchronisiert wird!
+            saveGame();
 
             document.getElementById('auth-overlay').classList.add('hidden');
             document.getElementById('splash-overlay').classList.remove('hidden');
 
             initCloudChatListener();
+            initCorpCloudListener();
             btnAction.innerText = "Einloggen & Spielstand Laden";
             btnAction.disabled = false;
         });
@@ -1795,16 +2371,13 @@ function handleRegister() {
 
 function handleLogout() {
     if (chatUnsubscribe) chatUnsubscribe();
-    auth.signOut().then(() => {
-        location.reload();
-    });
+    if (corpListenerUnsubscribe) corpListenerUnsubscribe();
+    auth.signOut().then(() => { location.reload(); });
 }
 
 function closeStartScreen() {
     document.getElementById('splash-overlay').classList.add('hidden');
-    setTimeout(() => {
-        initLeafletMap();
-    }, 100);
+    setTimeout(() => { initLeafletMap(); }, 100);
 }
 
 function toggleSidebar() {
@@ -1904,11 +2477,11 @@ function updateSeasonPassUI() {
     if (timerEl) timerEl.innerText = `${seasonDays}T ${seasonHours}H`;
 }
 
-function getTycoonTitle(trophies) {
-    if (trophies >= 100) return "👑 Welt-Imperator";
-    if (trophies >= 50) return "🌟 Globaler Mogul";
-    if (trophies >= 20) return "🏢 Gilden-Meister";
-    if (trophies >= 5) return "📈 Händler";
+function getTycoonTitle(money) {
+    if (money >= 1000000000) return "👑 Welt-Imperator";
+    if (money >= 100000000) return "🌟 Globaler Mogul";
+    if (money >= 10000000) return "🏢 Gilden-Meister";
+    if (money >= 100000) return "📈 Händler";
     return "🛒 Straßenverkäufer";
 }
 
@@ -1922,7 +2495,7 @@ function generateAllMonthlyPois() {
         let nou = nouns[(i * 7) % nouns.length];
         list.push({
             id: "poi_" + i,
-            name: `🗼 #${i} ${adj}-${nou}`,
+            name: `${adj.toUpperCase()} ${nou.toUpperCase()}`,
             level: 0,
             baseIncome: 2 * i
         });
@@ -1935,6 +2508,7 @@ function createDefaultState() {
         userId: auth.currentUser ? auth.currentUser.uid : "temp_usr",
         playerEmail: auth.currentUser ? auth.currentUser.email : "",
         money: 100, bankMoney: 0, loan: 0, diamonds: 0, playerName: "Spieler_" + Math.floor(Math.random()*1000), avatarIndex: 0, activeCategory: 'Alle',
+        corpId: "",
         workLevel: 1, workBasePower: 1, workCost: 20, workDiamondLevel: 0,
         playerLevel: 1, playerExp: 0, playerMaxExp: 100,
         boostActiveUntil: 0,
@@ -1959,7 +2533,6 @@ function createDefaultState() {
         termDepositMultiplier: 2,
         fundAmount: 0,
         fundSpent: 0,
-        pois: generateAllMonthlyPois(),
         achievements: [
             { id: "a1", text: "Erreiche 1.000 € Guthaben", target: 1000, type: "money", reward: 3, done: false },
             { id: "a2", text: "Kaufe 5 Gebäude", target: 5, type: "buildings", reward: 2, done: false },
@@ -2048,7 +2621,6 @@ function createDefaultState() {
     };
 }
 
-// Lade beim Start vorhandene lokale Daten aus dem Browser-Speicher
 let existingLocalRaw = localStorage.getItem("imperium_ultimate_save_local") || localStorage.getItem("imperium_local_temp_save");
 let state = createDefaultState();
 
@@ -2063,13 +2635,10 @@ if (existingLocalRaw) {
 
 let activeGlobalEvent = null;
 
-// --- CLOUD SPEICHERN & LADEN LOGIK ---
 function saveGameToCloud() {
     if (!auth.currentUser) return;
     let uid = auth.currentUser.uid;
-    db.collection("gameSaves").doc(uid).set(state)
-        .then(() => { console.log("☁️ Spielstand in Firebase gespeichert!"); })
-        .catch(err => { console.error("Cloud-Speicher Fehler: ", err); });
+    db.collection("gameSaves").doc(uid).set(state);
 }
 
 function loadGameFromCloud(callback) {
@@ -2077,14 +2646,10 @@ function loadGameFromCloud(callback) {
     let uid = auth.currentUser.uid;
     db.collection("gameSaves").doc(uid).get()
         .then(doc => {
-            if (doc.exists) {
-                console.log("☁️ Spielstand aus Firebase geladen!");
-                callback(doc.data());
-            } else {
-                callback(null);
-            }
+            if (doc.exists) callback(doc.data());
+            else callback(null);
         })
-        .catch(err => { console.error("Cloud-Lade Fehler: ", err); if (callback) callback(null); });
+        .catch(err => { if (callback) callback(null); });
 }
 
 function syncScoreToCloud() {
@@ -2095,26 +2660,22 @@ function syncScoreToCloud() {
         userId: uid, 
         name: (state.playerName || "Spieler") + passIcon, 
         avatarIndex: state.avatarIndex || 0,
-        trophies: getTotalTrophies(), 
+        money: state.money || 0,
         updated: Date.now() 
     };
 
-    db.collection("leaderboard").doc(uid).set(myLeaderboardData)
-        .then(() => { console.log("🏆 Bestenliste in Firebase aktualisiert!"); })
-        .catch(err => { console.error("Bestenlisten-Sync Fehler: ", err); });
+    db.collection("leaderboard").doc(uid).set(myLeaderboardData);
 }
 
 function fetchOnlineLeaderboard() {
     let box = document.getElementById('leaderboard-list');
     if (!box) return;
-    box.innerHTML = "<div style='color:var(--text-muted); font-size:12px;'>Lade weltweite Rangliste aus der Firebase Cloud...</div>";
+    box.innerHTML = "<div style='color:var(--text-muted); font-size:12px;'>Lade weltweite Rangliste...</div>";
 
-    db.collection("leaderboard").orderBy("trophies", "desc").limit(50).get()
+    db.collection("leaderboard").orderBy("money", "desc").limit(50).get()
     .then((querySnapshot) => {
         let players = [];
-        querySnapshot.forEach((doc) => {
-            players.push(doc.data());
-        });
+        querySnapshot.forEach((doc) => players.push(doc.data()));
 
         box.innerHTML = "";
         if (players.length === 0) {
@@ -2127,7 +2688,7 @@ function fetchOnlineLeaderboard() {
             let isUser = p.userId === currentUid;
             let rankColor = idx === 0 ? "var(--warning)" : idx === 1 ? "#cbd5e1" : idx === 2 ? "#b45309" : "var(--text-muted)";
             let pAvatarUrl = AVATAR_LIST[p.avatarIndex !== undefined ? p.avatarIndex : 0] || AVATAR_LIST[0];
-            let pTitle = getTycoonTitle(p.trophies || 0);
+            let pTitle = getTycoonTitle(p.money || 0);
 
             box.innerHTML += `
                 <div style="background:var(--surface-glass); padding:10px 12px; border-radius:12px; margin-bottom:6px; display:flex; justify-content:space-between; align-items:center; border:1px solid ${isUser?'var(--warning)':'var(--border)'};">
@@ -2141,13 +2702,9 @@ function fetchOnlineLeaderboard() {
                             <div style="font-size:9px; color:var(--text-muted);">${pTitle}</div>
                         </div>
                     </div>
-                    <div style="font-weight:800; font-size:13px; color:var(--warning);">🏆 ${(p.trophies || 0).toLocaleString()}</div>
+                    <div style="font-weight:800; font-size:13px; color:var(--success);">${formatNumber(p.money || 0)}</div>
                 </div>`;
         });
-    })
-    .catch((err) => {
-        console.error("Fehler beim Laden der Bestenliste: ", err);
-        box.innerHTML = "<div style='color:var(--danger); text-align:center;'>Fehler beim Laden der Bestenliste aus Firebase.</div>";
     });
 }
 
@@ -2179,13 +2736,11 @@ function importSaveFile(event) {
                 saveGame();
                 updateUI();
                 syncScoreToCloud();
-                alert("🎉 Spielstand erfolgreich aus der Datei geladen!");
+                alert("🎉 Spielstand erfolgreich geladen!");
                 location.reload();
-            } else {
-                alert("❌ Ungültige Speicherdatei!");
             }
         } catch (err) {
-            alert("❌ Fehler beim Lesen der Speicherdatei!");
+            alert("❌ Fehler beim Lesen der Datei!");
         }
     };
     reader.readAsText(file);
@@ -2279,30 +2834,6 @@ function getMaxUnlockedPoiCount() {
     return Math.min(62, day * 2);
 }
 
-function getTotalTrophies() {
-    if (!state.pois) return 0;
-    let totalPoiLevels = state.pois.reduce((acc, p) => acc + (p.level || 0), 0);
-    return Math.floor(totalPoiLevels / 10);
-}
-
-function claimDailyPois() {
-    let today = getTodayString();
-    if (state.lastPoiClaimDate === today) {
-        alert("Du hast deine heutigen 2 POI-Türme bereits abgeholt!");
-        return;
-    }
-    state.lastPoiClaimDate = today;
-    
-    let unlockedCount = getMaxUnlockedPoiCount();
-    let idx2 = unlockedCount - 1;
-    let idx1 = unlockedCount - 2;
-    
-    if (idx1 >= 0 && state.pois[idx1]) state.pois[idx1].level = Math.min(1000, (state.pois[idx1].level || 0) + 1);
-    if (idx2 >= 0 && state.pois[idx2]) state.pois[idx2].level = Math.min(1000, (state.pois[idx2].level || 0) + 1);
-
-    updateUI(); saveGame(); syncScoreToCloud();
-}
-
 function getPoiCost(poiLevel) {
     return Math.floor(40 * Math.pow(1.12, poiLevel));
 }
@@ -2312,28 +2843,11 @@ function getPoiMultiCost(currentLevel, count) {
     let total = 0;
     let tempLvl = currentLevel;
     for (let c = 0; c < count; c++) {
-        if (tempLvl >= 1000) break;
+        if (tempLvl >= 100000) break;
         total += Math.floor(getPoiCost(tempLvl) * discount);
         tempLvl++;
     }
     return total;
-}
-
-function upgradePoiMultiple(i, count) {
-    let poi = state.pois[i];
-    if (poi.level >= 1000) return;
-
-    let targetLevel = Math.min(1000, poi.level + count);
-    let actualCount = targetLevel - poi.level;
-    let totalCost = getPoiMultiCost(poi.level, actualCount);
-
-    if (state.money >= totalCost) {
-        state.money -= totalCost;
-        poi.level = targetLevel;
-        updateUI(); saveGame(); syncScoreToCloud();
-    } else {
-        alert(`Nicht genügend Bargeld! Du benötigst ${formatNumber(totalCost)}.`);
-    }
 }
 
 function hireScientist() {
@@ -2404,80 +2918,6 @@ function buyTech(key, cost) {
     }
 }
 
-function renderPois() {
-    let box = document.getElementById('pois-container');
-    if (!box || !state.pois) return;
-    box.innerHTML = "";
-
-    let today = getTodayString();
-    let claimBtn = document.getElementById('btn-claim-pois');
-    let claimStatus = document.getElementById('poi-claim-status');
-    if (state.lastPoiClaimDate === today) {
-        claimBtn.disabled = true;
-        claimStatus.innerText = "Bereits abgeholt heute";
-    } else {
-        claimBtn.disabled = false;
-        claimStatus.innerText = "Verfügbar (+2 POIs)";
-    }
-
-    let unlockedLimit = getMaxUnlockedPoiCount();
-
-    for (let i = 0; i < state.pois.length; i++) {
-        let poi = state.pois[i];
-        let isUnlocked = i < unlockedLimit;
-
-        if (!isUnlocked) {
-            box.innerHTML += `
-                <div class="tycoon-card" style="margin-bottom:12px; opacity:0.35; filter:grayscale(1);">
-                    <div class="tycoon-header">
-                        <span class="tycoon-title">${poi.name} (Gesperrt)</span>
-                        <span class="tycoon-tag">Ab Tag ${Math.floor(i/2) + 1}</span>
-                    </div>
-                </div>`;
-        } else {
-            let seasonMult = isSeasonPassActive() ? 1.5 : 1.0;
-            let currentIncome = Math.floor(poi.baseIncome * poi.level * seasonMult);
-            let trophiesFromPoi = Math.floor(poi.level / 10);
-            let isMax = poi.level >= 1000;
-            let cost1 = getPoiMultiCost(poi.level, 1);
-            let cost10 = getPoiMultiCost(poi.level, 10);
-            let cost100 = getPoiMultiCost(poi.level, 100);
-
-            box.innerHTML += `
-                <div class="tycoon-card" style="margin-bottom:12px;">
-                    <div class="tycoon-header">
-                        <span class="tycoon-title">${poi.name}</span>
-                        <span class="tycoon-tag">Lvl ${poi.level}/1.000</span>
-                    </div>
-                    <div class="tycoon-stats">
-                        <div class="stat-box">
-                            <div class="stat-label">Ertrag (Std.)</div>
-                            <div class="stat-val" style="color:var(--success);">+${formatNumber(currentIncome)}/Std.</div>
-                        </div>
-                        <div class="stat-box">
-                            <div class="stat-label">Gewonnene Pokale</div>
-                            <div class="stat-val" style="color:var(--warning);">🏆 ${trophiesFromPoi}</div>
-                        </div>
-                    </div>
-                    <div class="upgrade-grid">
-                        <div class="up-circle blue" ${isMax?'disabled':''} onclick="upgradePoiMultiple(${i}, 1)">
-                            <div class="up-lvl">+1 Stufe</div>
-                            <div class="up-cost">${formatNumber(cost1)}</div>
-                        </div>
-                        <div class="up-circle purple" ${isMax?'disabled':''} onclick="upgradePoiMultiple(${i}, 10)">
-                            <div class="up-lvl">+10 Stufen</div>
-                            <div class="up-cost">${formatNumber(cost10)}</div>
-                        </div>
-                        <div class="up-circle green" ${isMax?'disabled':''} onclick="upgradePoiMultiple(${i}, 100)">
-                            <div class="up-lvl">+100 Stufen</div>
-                            <div class="up-cost">${formatNumber(cost100)}</div>
-                        </div>
-                    </div>
-                </div>`;
-        }
-    }
-}
-
 function getClickPower() {
     let base = (state.workBasePower || 1) + Math.floor((state.workLevel - 1) * 0.5);
     let diaMult = 1 + ((state.workDiamondLevel || 0) * 0.5);
@@ -2515,8 +2955,8 @@ function getHourlyIncome() {
         let empMult = item.empHired ? 1.25 : 1.0;
         sumPerHour += item.count * basePerHour * Math.pow(1.05, (item.level || 1) - 1) * itemDiamondMult * empMult;
     }
-    if (state.pois) {
-        for (let poi of state.pois) {
+    if (currentCorpData && currentCorpData.pois) {
+        for (let poi of currentCorpData.pois) {
             sumPerHour += poi.baseIncome * (poi.level || 0);
         }
     }
@@ -2524,10 +2964,9 @@ function getHourlyIncome() {
     let scientistMult = 1 + ((state.scientistLevel || 0) * 0.15);
     let dysonMult = (state.techs?.dysonSphere || 0) > 0 ? 5 : 1;
     let boost = Date.now() < state.boostActiveUntil ? 2 : 1;
-    let eventMult = activeGlobalEvent === 'BOOM' ? 1.5 : 1;
     let seasonPassMult = isSeasonPassActive() ? 1.5 : 1.0;
 
-    return Math.max(0, Math.floor(sumPerHour * scientistMult * dysonMult * boost * eventMult * seasonPassMult));
+    return Math.max(0, Math.floor(sumPerHour * scientistMult * dysonMult * boost * seasonPassMult));
 }
 
 function getBankInterestRate() {
@@ -2799,7 +3238,7 @@ function renderStatsUI() {
         tBuildings.innerText = totalB + " Stk.";
     }
     if (tExp) tExp.innerText = (state.statExpeditionsCompleted || 0) + " Mal";
-    if (tTitle) tTitle.innerText = getTycoonTitle(getTotalTrophies());
+    if (tTitle) tTitle.innerText = getTycoonTitle(state.money || 0);
 }
 
 function renderShop() {
@@ -3030,7 +3469,11 @@ function switchTab(id, el) {
         renderStreakUI();
         renderStatsUI();
     }
-    if (id === 'pois') renderPois();
+    if (id === 'pois') {
+        renderCorpDashboard();
+        fetchCorpLeaderboard();
+        renderPois();
+    }
     if (id === 'diamonds') {
         renderTechTree();
         updateExpeditionUI();
@@ -3059,7 +3502,10 @@ function updateUI() {
     document.getElementById('display-money').innerText = formatNumber(state.money);
     document.getElementById('display-hourly-income').innerText = formatNumber(getHourlyIncome());
     document.getElementById('display-diamonds').innerText = state.diamonds;
-    document.getElementById('display-trophies').innerText = getTotalTrophies().toLocaleString();
+    
+    let corpTrophiesEl = document.getElementById('display-corp-trophies');
+    if (corpTrophiesEl) corpTrophiesEl.innerText = getCorpTotalTrophies().toLocaleString();
+
     document.getElementById('display-player-level').innerText = state.playerLevel || 1;
     document.getElementById('quest-player-lvl').innerText = state.playerLevel || 1;
 
@@ -3130,7 +3576,6 @@ function updateUI() {
 }
 
 function saveGame() {
-    // Sichere die Daten immer auch lokal als Backup
     localStorage.setItem("imperium_local_temp_save", JSON.stringify(state));
 
     if (!auth.currentUser) return;
@@ -3139,7 +3584,6 @@ function saveGame() {
     syncScoreToCloud();
 }
 
-// Live Krypto-Schwankungen Loop
 setInterval(() => {
     state.crypto.forEach(c => {
         let fluctuation = (Math.random() * 6 - 2.8);
@@ -3155,7 +3599,6 @@ setInterval(() => {
     saveGame();
 }, 3000);
 
-// Sekunden Loop für Timers & UI updates
 setInterval(() => {
     let now = Date.now();
 
