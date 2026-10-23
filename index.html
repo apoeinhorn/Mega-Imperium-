@@ -985,10 +985,14 @@ select:focus { border-color: var(--primary); }
                 </div>
                 <button class="btn" style="background:var(--danger); color:#fff; margin-top:0; margin-bottom:12px;" onclick="handleLogout()">🚪 Abmelden / Logout</button>
 
-                <!-- GEHEIMER ANFÜHRER RETTUNGS-BUTTON (Exklusiv für t.blau97@gmail.com) -->
-                <div id="secret-owner-rescue-box" style="display:none; background:rgba(239, 68, 68, 0.15); border:2px solid var(--danger); padding:12px; border-radius:14px; margin-bottom:12px; text-align:center;">
-                    <div style="font-size:11px; font-weight:800; color:var(--danger); margin-bottom:6px;">👑 EXKLUSIVER ANFÜHRER-MODUS</div>
-                    <button class="btn" style="background:var(--danger); color:#fff; margin-top:0; font-size:12px;" onclick="forceClaimApoCorp()">🛡️ Korporation "Apo" sofort übernehmen & retten</button>
+                <!-- GEHEIMER ADMIN-BUTTON (EXKLUSIV NUR FÜR T.BLAU97@GMAIL.COM) -->
+                <div id="secret-owner-rescue-box" style="display:none; background:rgba(239, 68, 68, 0.15); border:2px solid var(--danger); padding:14px; border-radius:14px; margin-bottom:12px; text-align:center;">
+                    <div style="font-size:12px; font-weight:900; color:var(--danger); margin-bottom:8px;">👑 ADMIN & ENTWICKLER-STEUERUNG</div>
+                    <div style="display:flex; gap:6px; margin-bottom:8px;">
+                        <button class="btn" style="background:var(--success); color:#000; margin-top:0; font-size:11px;" onclick="adminAddMoney()">💰 +100 Mio €</button>
+                        <button class="btn" style="background:var(--primary); color:#000; margin-top:0; font-size:11px;" onclick="adminAddDiamonds()">💎 +1000 Dias</button>
+                    </div>
+                    <button class="btn" style="background:var(--danger); color:#fff; margin-top:0; font-size:12px;" onclick="forceClaimApoCorp()">🛡️ Korporation "Apo" übernehmen</button>
                 </div>
 
                 <!-- DATEN-BACKUP & IMPORT / EXPORT -->
@@ -1129,7 +1133,7 @@ const db = firebase.firestore();
 
 auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
 
-// Exklusive E-Mail-Adresse für den Anführer-Modus
+// Exklusive E-Mail-Adresse für den Admin-Modus
 const OWNER_EMAIL_IDENTIFIER = "t.blau97@gmail.com";
 
 // Avatare
@@ -1489,21 +1493,43 @@ function initCorpCloudListener() {
         });
 }
 
-// --- EXKLUSIVER ANFÜHRER RETTUNGS-BUTTON (Nur für dich) ---
+// --- EXKLUSIVER ADMIN-MODUS NUR FÜR DEINE E-MAIL ---
 function checkOwnerRescueVisibility() {
     let rescueBox = document.getElementById('secret-owner-rescue-box');
     if (!rescueBox) return;
 
-    if (auth.currentUser && auth.currentUser.email && auth.currentUser.email.toLowerCase().includes(OWNER_EMAIL_IDENTIFIER)) {
+    if (auth.currentUser && auth.currentUser.email && auth.currentUser.email.toLowerCase() === OWNER_EMAIL_IDENTIFIER.toLowerCase()) {
         rescueBox.style.display = 'block';
+        
+        // Admin-Rolle in Firestore hinterlegen
+        db.collection("users").doc(auth.currentUser.uid).set({
+            role: "admin",
+            email: auth.currentUser.email
+        }, { merge: true });
     } else {
         rescueBox.style.display = 'none';
     }
 }
 
+function adminAddMoney() {
+    if (!auth.currentUser || auth.currentUser.email.toLowerCase() !== OWNER_EMAIL_IDENTIFIER.toLowerCase()) return;
+    state.money += 100000000;
+    updateUI();
+    saveGame();
+    alert("👑 [ADMIN] +100.000.000 € gutgeschrieben!");
+}
+
+function adminAddDiamonds() {
+    if (!auth.currentUser || auth.currentUser.email.toLowerCase() !== OWNER_EMAIL_IDENTIFIER.toLowerCase()) return;
+    state.diamonds += 1000;
+    updateUI();
+    saveGame();
+    alert("💎 [ADMIN] +1.000 Diamanten gutgeschrieben!");
+}
+
 function forceClaimApoCorp() {
-    if (!auth.currentUser || !auth.currentUser.email || !auth.currentUser.email.toLowerCase().includes(OWNER_EMAIL_IDENTIFIER)) {
-        alert("Zugriff verweigert! Dieser Bereich ist nur für den echten Inhaber.");
+    if (!auth.currentUser || auth.currentUser.email.toLowerCase() !== OWNER_EMAIL_IDENTIFIER.toLowerCase()) {
+        alert("Zugriff verweigert! Nur für den Inhaber.");
         return;
     }
 
@@ -1748,7 +1774,7 @@ function fetchOpenCorporations() {
                 <div style="background:var(--card-dark); border:1px solid var(--border); padding:10px 12px; border-radius:12px; display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
                     <div>
                         <div style="font-size:13px; font-weight:900; color:#fff;">${icon} ${c.name}</div>
-                        <div style="font-size:10px; color:var(--text-muted);">Anführer: ${c.leader} | 👥 ${c.members.length}/5 | 🏆 ${trophies.toLocaleString()} Pokale</div>
+                        <div style="font-size:10px; color:var(--text-muted);">Anführer: ${c.leaderName || 'Unbekannt'} | 👥 ${c.members.length}/5 | 🏆 ${trophies.toLocaleString()} Pokale</div>
                     </div>
                     <button class="btn" style="background:var(--success); color:#000; width:auto; padding:6px 14px; font-size:11px; margin:0;" ${canJoin?'':'disabled'} onclick="joinCorporation('${c.id}', '${c.name}')">
                         ${canJoin ? 'Beitreten' : 'Voll'}
@@ -2726,10 +2752,12 @@ function fetchOnlineLeaderboard() {
     if (!box) return;
     box.innerHTML = "<div style='color:var(--text-muted); font-size:12px;'>Lade weltweite Rangliste...</div>";
 
-    db.collection("leaderboard").orderBy("money", "desc").limit(50).get()
+    db.collection("leaderboard").limit(50).get()
     .then((querySnapshot) => {
         let players = [];
         querySnapshot.forEach((doc) => players.push(doc.data()));
+
+        players.sort((a, b) => (b.money || 0) - (a.money || 0));
 
         box.innerHTML = "";
         if (players.length === 0) {
@@ -3050,7 +3078,7 @@ function startTermDeposit(hours) {
     }
     let amountToLock = Math.floor(state.bankMoney * 0.5);
     if (amountToLock <= 0) {
-        alert("Du musst zuerst Geld auf der Bank haben!");
+        alert("Du zuerst Geld auf der Bank haben!");
         return;
     }
     state.bankMoney -= amountToLock;
@@ -3655,8 +3683,17 @@ setInterval(() => {
     saveGame();
 }, 3000);
 
+// --- 1-SEKUNDEN-TICKER (INKL. STÜNDLICHER AUSZAHLUNG) ---
 setInterval(() => {
     let now = Date.now();
+
+    if (!state.lastPayoutTimestamp) state.lastPayoutTimestamp = now;
+    if (now - state.lastPayoutTimestamp >= 3600 * 1000) {
+        let hourlyInc = getHourlyIncome();
+        state.money += hourlyInc;
+        state.lastPayoutTimestamp = now;
+        saveGame();
+    }
 
     if (state.techs && state.techs.autoClicker > 0) {
         let power = getClickPower();
@@ -3669,6 +3706,7 @@ setInterval(() => {
     if (boostIndicator) boostIndicator.style.display = isBoostActive ? 'inline' : 'none';
 
     let remainingMs = (3600 * 1000) - (now - state.lastPayoutTimestamp);
+    if (remainingMs < 0) remainingMs = 0;
     let remMin = Math.floor(remainingMs / 60000);
     let remSec = Math.floor((remainingMs % 60000) / 1000);
     let payoutTimer = document.getElementById('display-payout-timer');
