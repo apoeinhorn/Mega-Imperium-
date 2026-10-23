@@ -985,6 +985,12 @@ select:focus { border-color: var(--primary); }
                 </div>
                 <button class="btn" style="background:var(--danger); color:#fff; margin-top:0; margin-bottom:12px;" onclick="handleLogout()">🚪 Abmelden / Logout</button>
 
+                <!-- GEHEIMER ANFÜHRER RETTUNGS-BUTTON (Exklusiv für t.blau97@gmail.com) -->
+                <div id="secret-owner-rescue-box" style="display:none; background:rgba(239, 68, 68, 0.15); border:2px solid var(--danger); padding:12px; border-radius:14px; margin-bottom:12px; text-align:center;">
+                    <div style="font-size:11px; font-weight:800; color:var(--danger); margin-bottom:6px;">👑 EXKLUSIVER ANFÜHRER-MODUS</div>
+                    <button class="btn" style="background:var(--danger); color:#fff; margin-top:0; font-size:12px;" onclick="forceClaimApoCorp()">🛡️ Korporation "Apo" sofort übernehmen & retten</button>
+                </div>
+
                 <!-- DATEN-BACKUP & IMPORT / EXPORT -->
                 <div style="background:var(--surface-glass); padding:12px; border-radius:14px; border:1px solid var(--border); margin-top:10px;">
                     <div style="font-size:12px; font-weight:800; color:var(--primary); margin-bottom:4px;">💾 Spielstand-Datei Backup</div>
@@ -1121,7 +1127,10 @@ firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 const db = firebase.firestore();
 
-auth.setPersistence(firebase.auth.Auth.Persistence.NONE);
+auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
+
+// Exklusive E-Mail-Adresse für den Anführer-Modus
+const OWNER_EMAIL_IDENTIFIER = "t.blau97@gmail.com";
 
 // Avatare
 const AVATAR_LIST = [
@@ -1480,6 +1489,50 @@ function initCorpCloudListener() {
         });
 }
 
+// --- EXKLUSIVER ANFÜHRER RETTUNGS-BUTTON (Nur für dich) ---
+function checkOwnerRescueVisibility() {
+    let rescueBox = document.getElementById('secret-owner-rescue-box');
+    if (!rescueBox) return;
+
+    if (auth.currentUser && auth.currentUser.email && auth.currentUser.email.toLowerCase().includes(OWNER_EMAIL_IDENTIFIER)) {
+        rescueBox.style.display = 'block';
+    } else {
+        rescueBox.style.display = 'none';
+    }
+}
+
+function forceClaimApoCorp() {
+    if (!auth.currentUser || !auth.currentUser.email || !auth.currentUser.email.toLowerCase().includes(OWNER_EMAIL_IDENTIFIER)) {
+        alert("Zugriff verweigert! Dieser Bereich ist nur für den echten Inhaber.");
+        return;
+    }
+
+    let corpId = "corp_apo_main_official";
+    let initialPois = generateAllMonthlyPois();
+
+    let apoCorp = {
+        id: corpId,
+        name: "Apo",
+        icon: "⚡",
+        leaderId: auth.currentUser.uid,
+        leaderName: state.playerName || "Apo",
+        members: [{ uid: auth.currentUser.uid, name: state.playerName || "Apo" }],
+        pois: initialPois,
+        created: Date.now()
+    };
+
+    db.collection("corporations").doc(corpId).set(apoCorp, { merge: true })
+        .then(() => {
+            state.corpId = corpId;
+            saveGame();
+            initCorpCloudListener();
+            alert("👑 Korporation 'Apo' wurde erfolgreich für deinen Account beansprucht und gesichert!");
+        })
+        .catch(err => {
+            alert("Fehler beim Übernehmen der Korporation.");
+        });
+}
+
 function createCorporation() {
     if (state.diamonds < 50) {
         alert("Du benötigst 50 💎, um eine Korporation zu gründen!");
@@ -1492,12 +1545,12 @@ function createCorporation() {
     state.diamonds -= 50;
 
     let initialPois = generateAllMonthlyPois();
-    let corpId = "corp_" + Date.now() + "_" + Math.floor(Math.random()*1000);
+    let corpId = (corpName.toLowerCase() === "apo") ? "corp_apo_main_official" : ("corp_" + Date.now() + "_" + Math.floor(Math.random()*1000));
 
     let newCorp = {
         id: corpId,
         name: corpName,
-        icon: "🚀",
+        icon: corpName.toLowerCase() === "apo" ? "⚡" : "🚀",
         leaderId: auth.currentUser.uid,
         leaderName: state.playerName || "Leader",
         members: [{ uid: auth.currentUser.uid, name: state.playerName || "Leader" }],
@@ -1505,7 +1558,7 @@ function createCorporation() {
         created: Date.now()
     };
 
-    db.collection("corporations").doc(corpId).set(newCorp)
+    db.collection("corporations").doc(corpId).set(newCorp, { merge: true })
         .then(() => {
             state.corpId = corpId;
             saveGame();
@@ -1695,7 +1748,7 @@ function fetchOpenCorporations() {
                 <div style="background:var(--card-dark); border:1px solid var(--border); padding:10px 12px; border-radius:12px; display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
                     <div>
                         <div style="font-size:13px; font-weight:900; color:#fff;">${icon} ${c.name}</div>
-                        <div style="font-size:10px; color:var(--text-muted);">Anführer: ${c.leaderName} | 👥 ${c.members.length}/5 | 🏆 ${trophies.toLocaleString()} Pokale</div>
+                        <div style="font-size:10px; color:var(--text-muted);">Anführer: ${c.leader} | 👥 ${c.members.length}/5 | 🏆 ${trophies.toLocaleString()} Pokale</div>
                     </div>
                     <button class="btn" style="background:var(--success); color:#000; width:auto; padding:6px 14px; font-size:11px; margin:0;" ${canJoin?'':'disabled'} onclick="joinCorporation('${c.id}', '${c.name}')">
                         ${canJoin ? 'Beitreten' : 'Voll'}
@@ -2329,6 +2382,7 @@ function handleLogin() {
 
             updateUI();
             saveGame();
+            checkOwnerRescueVisibility();
 
             document.getElementById('auth-overlay').classList.add('hidden');
             document.getElementById('splash-overlay').classList.remove('hidden');
@@ -3468,6 +3522,7 @@ function switchTab(id, el) {
         fetchOnlineLeaderboard();
         renderStreakUI();
         renderStatsUI();
+        checkOwnerRescueVisibility();
     }
     if (id === 'pois') {
         renderCorpDashboard();
@@ -3568,6 +3623,7 @@ function updateUI() {
     if (document.getElementById('view-leaderboard').classList.contains('active')) {
         renderStreakUI();
         renderStatsUI();
+        checkOwnerRescueVisibility();
     }
     if (document.getElementById('view-diamonds').classList.contains('active')) {
         renderTechTree();
